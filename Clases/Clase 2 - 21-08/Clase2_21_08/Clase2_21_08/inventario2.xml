@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Inventario>
+  <Producto Color="Rojo" SuministradorId="2">
+    <ProductoId>1</ProductoId>
+    <ProductoNombre>Manzanas</ProductoNombre>
+    <ProductoPrecio>4,23</ProductoPrecio>
+  </Producto>
+  <Producto Color="Verde" SuministradorId="6">
+    <ProductoId>2</ProductoId>
+    <ProductoNombre>Peras</ProductoNombre>
+    <ProductoPrecio>3,12</ProductoPrecio>
+  </Producto>
+</Inventario>

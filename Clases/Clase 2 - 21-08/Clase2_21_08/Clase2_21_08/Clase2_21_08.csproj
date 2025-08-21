@@ -124,8 +124,10 @@
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="EjercicioB.aspx" />
+    <Content Include="EjercicioC.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="inventario2.xml" />
     <Content Include="Respuesta.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -226,6 +228,13 @@
     </Compile>
     <Compile Include="EjercicioB.aspx.designer.cs">
       <DependentUpon>EjercicioB.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EjercicioC.aspx.cs">
+      <DependentUpon>EjercicioC.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EjercicioC.aspx.designer.cs">
+      <DependentUpon>EjercicioC.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
