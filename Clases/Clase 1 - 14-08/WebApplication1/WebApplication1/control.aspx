@@ -27,7 +27,7 @@
             <asp:RegularExpressionValidator
                 ID="dd"
                 ControlToValidate="password"
-                ErrorMessage="Su password debe contener entre 3 y 20 caracteres"
+                ErrorMessage="Su password debe contener al menos 1 número y un caracter"
                 ValidationExpression="[a-zA-Z]+\w*\d+\w*"
                 runat="server"></asp:RegularExpressionValidator>
             <asp:Button ID="cc" runat="server" Text="Enviar" OnClick="cc_Click" />
