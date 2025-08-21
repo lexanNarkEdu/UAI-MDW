@@ -10,6 +10,7 @@ namespace WebApplication1
 {
     public partial class xml : System.Web.UI.Page
     {
+        //Ejercicio A XML
         protected void Page_Load(object sender, EventArgs e)
         {
             XmlTextReader miLector = new XmlTextReader(Server.MapPath("Inventario.xml"));
