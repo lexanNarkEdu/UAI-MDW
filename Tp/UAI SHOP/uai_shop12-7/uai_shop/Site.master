@@ -1,0 +1,215 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="es">
+<head runat="server">
+    <asp:ContentPlaceHolder ID="head" runat="server" />
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><%: Page.Title %> - UAI SHOP</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- FontAwesome para iconos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <style>
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9fb;
+            color: #333;
+            padding-top: 80px; 
+        }
+        .navbar {
+            box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+            background-color: #700606 !important;
+            padding: 1rem 2rem;
+            padding-top: 5px !important;
+            padding-bottom: 5px !important;
+        }
+        .navbar-brand img {
+            height: 80px !important;       
+            width: auto;                   
+            background-color: transparent !important;  
+            padding: 0 !important;        
+            margin: 0 !important;          
+            object-fit: contain;
+            filter: drop-shadow(0 0 2px rgba(0,0,0,0.15)); 
+            transition: transform 0.3s ease;
+            background-color: transparent !important;
+        }
+
+         .navbar-brand img:hover {
+            transform: scale(1.05);
+        }
+
+        .navbar-brand {
+            padding-top: 0 !important;    
+            display: flex;
+            align-items: center;
+            height: 56px;                 
+        }
+        .nav-link {
+            font-weight: 600;
+            color: #444;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover, .nav-link:focus {
+            color: #007bff;
+        }
+        .navbar-nav > li > a {
+            color: #f9f9fb;
+            font-weight: 500;
+        
+        }
+        .navbar, footer {
+          width: 100%;
+          margin: 0;
+          padding: 0;
+          border: none;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            font-weight: 600;
+            padding: 0.5rem 1.2rem;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            margin-top: 10px;
+            padding: 20px 0;
+            text-align: center;
+            color: #fff;
+            font-size: 0.9rem;
+            border-top: 1px solid #e0e0e0;
+            background-color: #700606 !important;
+            
+        }
+        hr {
+            border-color: #ddd;
+        }
+        .navbar-nav.navbar-right {
+        
+            margin-left: auto;
+        }
+        .navbar-collapse {
+        
+            display:flex !important;
+            justify-content: space-between;
+            align-items: center;
+        }
+      nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 60px; /* o lo que sea */
+}
+
+    </style>
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <%-- Framework & site scripts --%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+            
+            </Scripts>
+        </asp:ScriptManager>
+
+        
+        <nav id="navbar" runat="server" class="navbar navbar-expand-lg fixed-top shadow-sm">
+            <div class="container">
+                <a class="navbar-brand" runat="server" href="~/">
+                    <asp:Image ID="Image1" runat="server" ImageUrl="imagenes/uai_shop_logo.png" CssClass="img-fluid" />
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarContent">  
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <!--Menu INICIO -->
+                        <li id="navbarr" runat="server" class="nav-item"><a class="nav-link" runat="server" href="~/">Inicio</a></li>
+                        <!--Menu ADMIN -->
+                        <li id="liAdmin" runat="server" class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="~/" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="adminDropdown"> 
+                                    <li id="liAuditoria" runat="server" class="dropdown-item"><a class="dropdown-item" runat="server" href="~/Bitacora">Bitácora</a></li>
+                                    <li id="liDesbloqueoUsuario" runat="server" class="dropdown-item"><a class="dropdown-item" runat="server" href="~/DesbloqueoUser">Desbloquear Usuario</a></li>
+                                    <li id="liRestoreBackup" runat="server" class="dropdown-item"><a class="dropdown-item" runat="server" href="~/BackRestore">Backup y Restore</a></li>                                
+                                </ul>
+                        </li>
+                        <!--Menu categorias -->
+                        <li id="liCategorias" runat="server" class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Categorías
+                                </a>
+
+                                    <!-- REEMPLAZAR  href="~/Contact por el formulario a redirigir, por ejemplo href="~/Default  -->
+
+                                <ul class="dropdown-menu" aria-labelledby="categoriasDropdown"> 
+                                   <li><a class="dropdown-item" runat="server" href="~/Muebles">Muebles</a></li>
+                                    <li><a class="dropdown-item" runat="server" href="~/Electro">Electro</a></li>
+                                    <li><a class="dropdown-item" runat="server" href="~/Papeleria">Papelería</a></li>
+                                </ul>
+                        </li>
+                        <!--Menu Facturas y Pagos -->
+                        <li id="liFacturas" runat="server" class="nav-item"><a class="nav-link" runat="server" href="~/Facturas">Facturas y Pagos</a></li>
+                        <!--Menu Ver carrito -->
+                        <li id="liCarrito" runat="server" class="nav-item"><a class="nav-link" runat="server" href="~/CarritoCompra">Ver carrito</a></li>
+                        <!--Menu About -->
+                        <li id="liAbout" runat="server" class="nav-item"><a class="nav-link" runat="server" href="~/About">About</a></li>
+                       <li class="nav-item">
+                       <!--Menu Cerrar sesion -->
+    <asp:LinkButton ID="CerrarSesion" runat="server" CssClass="nav-link" OnClick="btnCerrarSesion_Click">Cerrar Sesión</asp:LinkButton>
+</li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+
+       
+        <div class="container my-5">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </div>
+
+        <hr />
+
+        <footer>
+            <p>&copy; <%: DateTime.Now.Year %> - UAI Shop - Todos los derechos reservados</p>
+        </footer>
+    </form>
+ 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>

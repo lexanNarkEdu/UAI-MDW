@@ -1,0 +1,12 @@
+Webmaster
+user:MarkZuckerberg
+pass: Master999
+---------------------
+Admin
+user:ElonMusk
+pass: Elon666
+------------------
+Comprador
+User: Pato
+clave: Patokey555
+

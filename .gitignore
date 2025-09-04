@@ -55,3 +55,4 @@ nunit-*.xml
 .vs
 packages/
 .vs/uai_shop
+obj
