@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DatosProfesor>
+  <Apellido>Perez</Apellido>
+  <Asignatura>Programación</Asignatura>
+  <Contraprestacion>90000</Contraprestacion>
+</DatosProfesor>
