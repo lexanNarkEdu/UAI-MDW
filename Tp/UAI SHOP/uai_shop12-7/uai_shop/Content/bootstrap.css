@@ -1671,8 +1671,6 @@ pre code {
   min-height: 1px;
   padding-right: 15px;
   padding-left: 15px;
-    top: 7px;
-    left: -3px;
 }
 .col-xs-1,
 .col-xs-2,
@@ -4295,8 +4293,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar-fixed-top,
 .navbar-fixed-bottom {
   position: fixed;
-  right: -1px;
-  left: 1px;
+  right: 0;
+  left: 0;
   z-index: 1030;
 }
 .navbar-fixed-top .navbar-collapse,
@@ -4316,7 +4314,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-fixed-top {
-  top: -7px;
+  top: 0;
   border-width: 0 0 1px;
 }
 .navbar-fixed-bottom {
