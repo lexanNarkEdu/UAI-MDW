@@ -34,6 +34,11 @@ namespace BLL
 
             if (usuarioDesdeDAL != null && !usuarioDesdeDAL.ESTA_BLOQUEADO)
             {
+                // Resetear intentos fallidos al hacer login exitoso
+                _repo.resetearIntentos(user.USERNAME);
+                mIntegridadBL.ActualizarSpecificDVH(nameof(Usuario), usuarioDesdeDAL.Id_Usuario);
+                mIntegridadBL.ActualizarDVV();
+
                 switch (usuarioDesdeDAL.TipoUser)
                 {
                     case 1: // Webmaster

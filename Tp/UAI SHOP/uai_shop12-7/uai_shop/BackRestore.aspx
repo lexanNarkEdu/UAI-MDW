@@ -76,9 +76,26 @@
         </div>
 
         <span class="section-title">Generar Restore</span>
-        <asp:FileUpload ID="fuRestore" runat="server" />
+        <asp:FileUpload ID="fuRestore" runat="server" 
+                        accept=".bak" 
+                        onchange="validateFileType(this)" />
         <div class="asp-buttons">
             <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="Restore" />
         </div>
     </div>
+
+    <script type="text/javascript">
+        function validateFileType(input) {
+            if (input.files && input.files[0]) {
+                var fileName = input.files[0].name;
+                var fileExtension = fileName.split('.').pop().toLowerCase();
+                
+                if (fileExtension !== 'bak') {
+                    alert('Por favor, seleccione solo archivos .bak');
+                    input.value = '';
+                    return false;
+                }
+            }
+        }
+    </script>
 </asp:Content>

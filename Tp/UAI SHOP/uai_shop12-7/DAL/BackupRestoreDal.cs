@@ -32,7 +32,7 @@ namespace DAL
                     comando.Connection = conn;
                     comando.CommandText = "ALTER DATABASE [ProyectoWEB] SET SINGLE_USER WITH ROLLBACK IMMEDIATE";
                     comando.ExecuteNonQuery();
-                    comando.CommandText = "USE MASTER RESTORE DATABASE [ProyectoWEB] FROM DISK='" + ruta + "' WITH REPLACE";
+                    comando.CommandText = "USE MASTER; RESTORE DATABASE [ProyectoWEB] FROM DISK='" + ruta + "' WITH REPLACE";
                     comando.ExecuteNonQuery();
                     comando.CommandText = "ALTER DATABASE [ProyectoWEB] SET MULTI_USER";
                     comando.ExecuteNonQuery();

@@ -73,32 +73,30 @@ public partial class Contact : Page
     {
         try
         {
-
             string nombreArchivo = "Backup_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".bak";
-            string rutaBackupSqlServer = @"C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup" + nombreArchivo;
-
             
-            // 3. Crear el backup usando la clase BackupRestore
+            // Guardar directamente en la carpeta Temp del proyecto
+            string rutaProyectoTemp = Server.MapPath("~/Temp/" + nombreArchivo);
+            
+            // Crear el backup directamente en la ubicación final
             BackupRestore backup = new BackupRestore();
-            backup.CrearBackUp(rutaBackupSqlServer);
-
-            // 4. Copiar ese archivo a una carpeta temporal del sitio para que el usuario lo descargue
-            string rutaWebTemporal = Server.MapPath("~/Temp/" + nombreArchivo);
-            System.IO.File.Copy(rutaBackupSqlServer, rutaWebTemporal, true);
-
-            // 5. Enviar el archivo al navegador para que el usuario lo descargue
+            backup.CrearBackUp(rutaProyectoTemp);
+            
+            // Mostrar mensaje antes de finalizar
+            string script = "alert('El backup se realizó con éxito!');";
+            Page.ClientScript.RegisterStartupScript(typeof(Page), "alert", script, true);
+            
+            // Enviar el archivo al navegador para descarga
             Response.Clear();
             Response.ContentType = "application/octet-stream";
             Response.AppendHeader("Content-Disposition", "attachment; filename=" + nombreArchivo);
-            Response.TransmitFile(rutaWebTemporal);
+            Response.TransmitFile(rutaProyectoTemp);
             Response.End();
-            string script = "alert('El backup se realizo con exito!');";
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
         }
         catch (Exception ex)
         {
-          //  lblResultado.ForeColor = System.Drawing.Color.Red;
-          //  lblResultado.Text = "Error: " + ex.Message;
+            string script = $"alert('Error al crear backup: {ex.Message}');";
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
         }
 
     }
@@ -109,36 +107,56 @@ public partial class Contact : Page
         {
             if (fuRestore.HasFile)
             {
-                string nombreArchivo = System.IO.Path.GetFileName(fuRestore.FileName);
-                string carpetaDestino = Server.MapPath("~/TempRestore/");
-
-                if (!System.IO.Directory.Exists(carpetaDestino))
-                    System.IO.Directory.CreateDirectory(carpetaDestino);
-
-                string rutaTemporalWeb = System.IO.Path.Combine(carpetaDestino, nombreArchivo);
-                fuRestore.SaveAs(rutaTemporalWeb);
-
-                // Copiar archivo al directorio de SQL Server
-                string rutaSQLServer = @"C:\Users\realp\Downloads" + nombreArchivo;
-                System.IO.File.Copy(rutaTemporalWeb, rutaSQLServer, true);
-
-                // Ejecutar restore desde la ubicación donde SQL Server sí tiene acceso
-                BackupRestore backup = new BackupRestore();
-                backup.EjecutarRestore(rutaSQLServer);
-                string script = "alert('El Restore se realizo con exito!');";
-                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
-                Session.Clear();
-                Response.Redirect("~/Login.aspx");
+                // Validación adicional server-side
+                if (!fuRestore.FileName.EndsWith(".bak", StringComparison.OrdinalIgnoreCase))
+                {
+                    string script = "alert('Por favor, seleccione un archivo .bak válido');";
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                    return;
+                }
+                
+                // Usar directamente el stream del archivo subido
+                using (var fileStream = fuRestore.PostedFile.InputStream)
+                {
+                    // Crear un archivo temporal simple
+                    string tempFile = System.IO.Path.GetTempFileName();
+                    
+                    try
+                    {
+                        // Copiar el stream directamente al archivo temporal
+                        using (var outputStream = System.IO.File.Create(tempFile))
+                        {
+                            fileStream.CopyTo(outputStream);
+                        }
+                        
+                        // Ejecutar restore
+                        BackupRestore backup = new BackupRestore();
+                        backup.EjecutarRestore(tempFile);
+                        
+                        string script = "alert('El Restore se realizó con éxito!');";
+                        ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                        
+                        Session.Clear();
+                        Response.Redirect("~/LogIn.aspx");
+                    }
+                    finally
+                    {
+                        // Limpiar archivo temporal
+                        if (System.IO.File.Exists(tempFile))
+                            System.IO.File.Delete(tempFile);
+                    }
+                }
             }
             else
             {
-                //lblResultado.Text = "Por favor, seleccioná un archivo .bak.";
+                string script = "alert('Por favor, seleccione un archivo .bak');";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
             }
         }
         catch (Exception ex)
         {
-            //lblResultado.ForeColor = System.Drawing.Color.Red;
-            //lblResultado.Text = "Error al restaurar: " + ex.Message;
+            string script = $"alert('Error al restaurar: {ex.Message}');";
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
         }
     }
 

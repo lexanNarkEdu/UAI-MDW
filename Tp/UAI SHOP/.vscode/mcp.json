@@ -1,0 +1,45 @@
+{
+	"servers": {
+		"context7": {
+			"type": "stdio",
+			"command": "npx",
+			"args": [
+				"@upstash/context7-mcp"
+			]
+		},
+		"microsoft.docs.mcp": {
+			"type": "http",
+			"url": "https://learn.microsoft.com/api/mcp"
+		},
+		"playwright": {
+			"command": "npx",
+			"args": [
+				"@playwright/mcp@latest"
+			]
+    	},
+		"markitdown": {
+			"command": "docker",
+			"args": [
+				"run",
+				"--rm",
+				"-i",
+				"markitdown-mcp:latest"
+			]
+    	},
+		"sequential-thinking": {
+			"command": "npx",
+			"args": [
+				"-y",
+				"@modelcontextprotocol/server-sequential-thinking"
+			]
+    	},
+		"memory": {
+			"command": "npx",
+			"args": [
+				"-y",
+				"@modelcontextprotocol/server-memory"
+			]
+    	}
+	},
+	"inputs": []
+}
