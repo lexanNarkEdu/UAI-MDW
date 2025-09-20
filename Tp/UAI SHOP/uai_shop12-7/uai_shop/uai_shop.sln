@@ -3,25 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "uai_shop", ".", "{3D6759B1-B695-4920-A579-071837A3ED57}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "uai_shop(1)", ".", "{3D6759B1-B695-4920-A579-071837A3ED57}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
 		ProjectReferences = "{2f1b0cac-dc4e-40c7-befc-a5f2bb0c72e9}|BE.dll;{ad9ec101-aab4-413b-a1cc-e4397f3e3ee0}|BLL.dll;{5009eddf-2bbd-4708-a157-adfe9008636b}|DAL.dll;{349f5745-b130-4dcf-a710-10ef4900ad2f}|SERVICES.dll;"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_60273"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_8081"
 		Debug.AspNetCompiler.PhysicalPath = "..\uai_shop\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_60273\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_8081\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_60273"
+		Release.AspNetCompiler.VirtualPath = "/localhost_8081"
 		Release.AspNetCompiler.PhysicalPath = "..\uai_shop\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_60273\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_8081\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "60273"
+		VWDPort = "8081"
 		SlnRelativePath = "..\uai_shop\"
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
