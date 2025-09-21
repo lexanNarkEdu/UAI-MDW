@@ -1,0 +1,21 @@
+{
+  "name": "uai-shop-qa-validation",
+  "version": "1.0.0",
+  "description": "QA validation tests for UAI Shop using Playwright",
+  "main": "qa-validation.js",
+  "scripts": {
+    "test": "node qa-validation.js",
+    "test:login": "node -e \"require('./qa-validation').testLoginAttemptCounterIssue()\"",
+    "test:backup": "node -e \"require('./qa-validation').testBackupFunctionality()\"",
+    "test:integrity": "node -e \"require('./qa-validation').testIntegrityErrorHandling()\"",
+    "test:restore": "node -e \"require('./qa-validation').testRestoreFunctionality()\"",
+    "test:access": "node -e \"require('./qa-validation').testDirectUrlAccess()\"",
+    "install-playwright": "npx playwright install"
+  },
+  "keywords": ["qa", "testing", "playwright", "asp.net"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.47.0"
+  }
+}

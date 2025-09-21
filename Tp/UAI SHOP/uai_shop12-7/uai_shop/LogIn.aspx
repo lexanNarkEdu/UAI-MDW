@@ -139,6 +139,10 @@
 
         <asp:Button ID="ButtonLogin" runat="server" Text="Ingresar" CssClass="btn-login" OnClick="ButtonLogin_Click" />
         <asp:Label ID="lblError" runat="server" CssClass="text-danger" Visible="false" />
+        
+        <!-- Controles ocultos para manejar recálculo de hashes -->
+        <asp:HiddenField ID="hdnRecalcularHashes" runat="server" />
+        <asp:Button ID="btnRecalcularHashes" runat="server" OnClick="btnRecalcularHashes_Click" style="display:none;" />
     </div>
 </div>
 </asp:Content>

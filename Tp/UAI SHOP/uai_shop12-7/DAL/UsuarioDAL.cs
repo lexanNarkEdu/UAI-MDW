@@ -193,6 +193,18 @@ namespace DAL.Servicios
         }
 
         /**
+         * Resetea los intentos fallidos de un usuario a 0
+         */
+        public Boolean resetearIntentos(string username)
+        {
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(ac.crearParametro("@Username", username.Trim()));
+            int modificados = ac.escribir("RESET_INTENTOS_USUARIO", parametros);
+
+            return modificados != 0 ? true : false;
+        }
+
+        /**
          * solo lista username, cant_intentos y si esta bloqueado
          * se utiliza para la logica de bloqueo y 3 intentos fallidos
          */

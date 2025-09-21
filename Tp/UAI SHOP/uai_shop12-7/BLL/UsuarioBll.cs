@@ -26,7 +26,7 @@ namespace BLL
         }
 
 
-        public Usuario Buscar(Usuario user)
+        public Usuario Buscar(Usuario user, bool secureIntegrity)
         {
             // Llama al método DAL que ya tenés
             user = EncriptadorService.Instance.Encriptar(user);
@@ -34,6 +34,15 @@ namespace BLL
 
             if (usuarioDesdeDAL != null && !usuarioDesdeDAL.ESTA_BLOQUEADO)
             {
+                // Resetear intentos fallidos al hacer login exitoso
+                _repo.resetearIntentos(user.USERNAME);
+
+                if (secureIntegrity)
+                {
+                    mIntegridadBL.ActualizarSpecificDVH(nameof(Usuario), usuarioDesdeDAL.Id_Usuario);
+                    mIntegridadBL.ActualizarDVV();
+                }
+
                 switch (usuarioDesdeDAL.TipoUser)
                 {
                     case 1: // Webmaster

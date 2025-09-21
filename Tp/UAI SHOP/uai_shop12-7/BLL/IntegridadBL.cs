@@ -9,6 +9,7 @@ using DAL.Servicios;
 using BE;
 using SERVICES;
 using System.Reflection;
+using System.Runtime.Versioning;
 namespace BLL.Servicios
 {
   public  class IntegridadBL
@@ -104,7 +105,24 @@ namespace BLL.Servicios
             }
 
         }
-       private List<string> ObtenerDVHS(string nombreTabla)
+
+
+        public void ActualizarSpecificDVH<T>(string tableName, T identifierValue)
+        {
+
+            foreach (string tabla in ConfiguracionesGenerales.tablasClaves.Where(x => x == tableName))
+            {
+                var identifier = ConfiguracionesGenerales.identifierByTable[tableName];
+                DataRow mrow = ObtenerRegistros(tabla).First(row => row[identifier].ToString() == identifierValue.ToString());
+                string newDVH = GenerarDVH(mrow);
+                mrow["DVH"] = newDVH;
+                mIntegridadDAL.ActualizarDVH(tabla, mrow);
+                break;
+            }
+        }
+
+
+        private List<string> ObtenerDVHS(string nombreTabla)
         {
             List<string> mlistaDVH = new List<string>();
             foreach (DataRow mrow in ObtenerRegistros(nombreTabla))

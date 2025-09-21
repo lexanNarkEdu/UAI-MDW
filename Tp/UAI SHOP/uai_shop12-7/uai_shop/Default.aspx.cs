@@ -33,17 +33,17 @@ public partial class _Default : Page
 
                     habilitarMenusSegunRol(usuariologeado.Permiso.Nombre.Trim());
 
+                    // También podés mostrar un alert opcional
+                    if (mostrado)
+                    {
+                        return;
+                    }
+                    string script = "alert('Se logueó el " + usuariologeado.Permiso.Nombre + "');";
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                    mostrado = true;
                 }
                 CargarProductos();
                 MostrarTotal();
-                // También podés mostrar un alert opcional
-                if (mostrado)
-                {
-                        return;
-                }
-                string script = "alert('Se logueó el " + usuariologeado.Permiso.Nombre + "');";
-                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
-                mostrado = true;
             }
         }
         

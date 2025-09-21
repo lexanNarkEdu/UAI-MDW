@@ -50,6 +50,9 @@
     <Compile Include="VentaBll.cs" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\BE\BE.csproj">
       <Project>{2f1b0cac-dc4e-40c7-befc-a5f2bb0c72e9}</Project>
       <Name>BE</Name>

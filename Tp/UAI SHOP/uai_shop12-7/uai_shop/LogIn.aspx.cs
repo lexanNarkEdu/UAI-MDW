@@ -29,27 +29,37 @@ public partial class _Default : Page
         usuario.USERNAME = TextBox1User.Text;
         usuario.Clave = TextBox2pass.Text;
         UsuarioBll usuarioBll = new UsuarioBll();
-        Usuario usuariobd = usuarioBll.Buscar(usuario);
+        List<string> erroresIntegridad = integridadBL.VerificarIntegridad();
+        Usuario usuariobd = usuarioBll.Buscar(usuario, erroresIntegridad.Count == 0);
        
         if (usuariobd != null)
         {//new
-            List<string> erroresIntegridad = new List<string>();
             try
             {
-                erroresIntegridad=integridadBL.VerificarIntegridad();
                 if(erroresIntegridad.Count > 0)//hay errores
                 {
                     if (usuariobd.Permiso.Nombre != "Webmaster")
                     {
-                        string script = $"<script>alert('Error de integridad. Contacte al WebMaster');</script>";
-                        ClientScript.RegisterStartupScript(this.GetType(), "alerta", script);
+                        Response.Write("<script>alert('Error de integridad. Contacte al WebMaster');</script>");
                         return;
                     }
-                    string mensajeUnico = HttpUtility.JavaScriptStringEncode(string.Join("\n", erroresIntegridad));
-                    Session["mensajeUnico"] = mensajeUnico;
-                    BitacoraBL.RegistrarBitacora(TipoEvento.Message, usuariobd, "Se logeo el " + usuariobd.Permiso.Nombre + ": " + usuariobd.USERNAME);
+                    
+                    // Para webmaster: mostrar modal con opciones
+                    string erroresDetallados = HttpUtility.JavaScriptStringEncode(string.Join("\\n", erroresIntegridad));
                     Session["Usuario"] = usuariobd;
-                    Response.Redirect("BackRestore.aspx");
+                    Session["mensajeUnico"] = HttpUtility.JavaScriptStringEncode(string.Join("\n", erroresIntegridad)); ;
+                    BitacoraBL.RegistrarBitacora(TipoEvento.Message, usuariobd, "Webmaster detectó error de integridad");
+                    
+                    string modalScript = $@"
+                        if(confirm('ERRORES DE INTEGRIDAD DETECTADOS:\\n\\n{erroresDetallados}\\n\\n¿Desea recalcular los hashes automáticamente?\\n\\nSí: Recalcular hashes y cerrar sesión\\nNo: Ir a página de backup')) {{
+                            document.getElementById('{hdnRecalcularHashes.ClientID}').value = 'true';
+                            document.getElementById('{btnRecalcularHashes.ClientID}').click();
+                        }} else {{
+                            window.location.href = 'BackRestore.aspx';
+                        }}";
+                    
+                    ClientScript.RegisterStartupScript(this.GetType(), "modalIntegridad", modalScript, true);
+                    return;
                 }
             }
             catch (Exception)
@@ -88,6 +98,33 @@ public partial class _Default : Page
 
             //end pato
       
+        }
+    }
+
+    protected void btnRecalcularHashes_Click(object sender, EventArgs e)
+    {
+        if (hdnRecalcularHashes.Value == "true")
+        {
+            try
+            {
+                IntegridadBL integridadBL = new IntegridadBL();
+                integridadBL.ActualizarDVH();
+                integridadBL.ActualizarDVV();
+                
+                string script = @"
+                    alert('Hashes recalculados exitosamente. Cerrando sesión...');
+                    setTimeout(function() { window.location.href = 'LogIn.aspx'; }, 2000);
+                ";
+                ClientScript.RegisterStartupScript(this.GetType(), "recalculoExitoso", script, true);
+                
+                Session.Clear();
+                hdnRecalcularHashes.Value = ""; // Limpiar el campo oculto
+            }
+            catch (Exception ex)
+            {
+                string script = $"alert('Error al recalcular hashes: {ex.Message}');";
+                ClientScript.RegisterStartupScript(this.GetType(), "errorRecalculo", script, true);
+            }
         }
     }
 }

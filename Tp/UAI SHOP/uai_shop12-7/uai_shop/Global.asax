@@ -1,14 +1,1 @@
-﻿<%@ Application Language="C#" %>
-<%@ Import Namespace="uai_shop" %>
-<%@ Import Namespace="System.Web.Optimization" %>
-<%@ Import Namespace="System.Web.Routing" %>
-
-<script runat="server">
-
-    void Application_Start(object sender, EventArgs e)
-    {
-        RouteConfig.RegisterRoutes(RouteTable.Routes);
-        BundleConfig.RegisterBundles(BundleTable.Bundles);
-    }
-
-</script>
+﻿<%@ Application CodeFile="Global.asax.cs" Inherits="uai_shop.Global" Language="C#" %>

@@ -56,3 +56,4 @@ nunit-*.xml
 packages/
 .vs/uai_shop
 obj
+node_modules/
