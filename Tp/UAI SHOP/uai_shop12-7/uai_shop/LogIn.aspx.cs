@@ -29,20 +29,18 @@ public partial class _Default : Page
         usuario.USERNAME = TextBox1User.Text;
         usuario.Clave = TextBox2pass.Text;
         UsuarioBll usuarioBll = new UsuarioBll();
-        Usuario usuariobd = usuarioBll.Buscar(usuario);
+        List<string> erroresIntegridad = integridadBL.VerificarIntegridad();
+        Usuario usuariobd = usuarioBll.Buscar(usuario, erroresIntegridad.Count == 0);
        
         if (usuariobd != null)
         {//new
-            List<string> erroresIntegridad = new List<string>();
             try
             {
-                erroresIntegridad=integridadBL.VerificarIntegridad();
                 if(erroresIntegridad.Count > 0)//hay errores
                 {
                     if (usuariobd.Permiso.Nombre != "Webmaster")
                     {
-                        string script = $"alert('Error de integridad. Contacte al WebMaster');";
-                        ClientScript.RegisterStartupScript(this.GetType(), "alerta", script);
+                        Response.Write("<script>alert('Error de integridad. Contacte al WebMaster');</script>");
                         return;
                     }
                     
