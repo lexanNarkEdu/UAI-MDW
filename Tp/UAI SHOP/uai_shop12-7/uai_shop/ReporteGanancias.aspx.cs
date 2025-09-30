@@ -8,11 +8,14 @@ using BE;
 public partial class ReporteGanancias : System.Web.UI.Page
 {
     private ReportingWebService webService = new ReportingWebService();
+    private BLL.ProductoBll productoBll = new BLL.ProductoBll();
 
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
+            // Cargar categorías en el dropdown
+            CargarCategorias();
             // Cargar reporte general por defecto
             CargarReporteGeneral();
         }
@@ -120,9 +123,10 @@ public partial class ReporteGanancias : System.Web.UI.Page
             }
 
             // Aplicar filtro de categoría
-            if (ddlCategoria.SelectedValue != "")
+            int idCategoria = 0;
+            if (ddlCategoria.SelectedValue != "" && int.TryParse(ddlCategoria.SelectedValue, out idCategoria))
             {
-                filtros.Categoria = ddlCategoria.SelectedValue;
+                filtros.IDCategoria = idCategoria;
             }
 
             // Aplicar filtros de costo
@@ -163,7 +167,6 @@ public partial class ReporteGanancias : System.Web.UI.Page
             // Obtener reporte con filtros usando WebService
             string fechaDesdeStr = filtros.FechaDesde != null ? filtros.FechaDesde.Value.ToString("yyyy-MM-dd") : "";
             string fechaHastaStr = filtros.FechaHasta != null ? filtros.FechaHasta.Value.ToString("yyyy-MM-dd") : "";
-            int idCategoria = 0; // Necesitaríamos convertir el nombre de categoría a ID
             precioMin = filtros.PrecioMinimo ?? 0;
             precioMax = filtros.PrecioMaximo ?? 0;
             costoMin = filtros.CostoMinimo ?? 0;
@@ -273,5 +276,30 @@ public partial class ReporteGanancias : System.Web.UI.Page
         
         // No mostrar KPIs cuando hay error
         panelEstadisticas.Visible = false;
+    }
+
+    private void CargarCategorias()
+    {
+        try
+        {
+            var categorias = productoBll.ObtenerCategorias();
+            
+            // Limpiar dropdown
+            ddlCategoria.Items.Clear();
+            
+            // Agregar opción por defecto
+            ddlCategoria.Items.Add(new ListItem("Todas las categorías", ""));
+            
+            // Agregar categorías
+            foreach (var categoria in categorias)
+            {
+                ddlCategoria.Items.Add(new ListItem(categoria.Nombre, categoria.IDCategoria.ToString()));
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log del error pero no mostrar al usuario ya que es carga inicial
+            System.Diagnostics.Debug.WriteLine("Error al cargar categorías: " + ex.Message);
+        }
     }
 }

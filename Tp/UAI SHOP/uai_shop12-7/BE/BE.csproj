@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="BitacoraBE.cs" />
     <Compile Include="Carrito.cs" />
+    <Compile Include="Categoria.cs" />
     <Compile Include="ConfiguracionesGenerales.cs" />
     <Compile Include="Enumeradores.cs" />
     <Compile Include="IEntidadVerificable.cs" />
