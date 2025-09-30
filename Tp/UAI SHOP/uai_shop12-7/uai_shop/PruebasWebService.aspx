@@ -1,0 +1,148 @@
+<%@ Page Title="Pruebas WebService" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="PruebasWebService.aspx.cs" Inherits="PruebasWebService" %>
+
+<asp:Content ID="HeadContent" ContentPlaceHolderID="head" runat="server">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .pruebas-wrapper {
+            max-width: 1200px;
+            margin: 60px auto;
+            background-color: #161b22;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 0 25px #00ffc844;
+        }
+
+        h2 {
+            color: #00ffc8;
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .webservice-info {
+            background: linear-gradient(135deg, #1e2936, #26343f);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #00ffc833;
+        }
+
+        .test-section {
+            background: linear-gradient(135deg, #1e2936, #26343f);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid #00ffc833;
+        }
+
+        .btn-test {
+            background: linear-gradient(135deg, #00ffc8, #00d4aa);
+            border: none;
+            color: #0f1419;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+            margin: 5px;
+            transition: transform 0.2s;
+        }
+
+        .btn-test:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px #00ffc844;
+        }
+
+        .result-panel {
+            background-color: #0f1419;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .success {
+            color: #00ffc8;
+        }
+
+        .error {
+            color: #ff6b6b;
+        }
+
+        .info {
+            color: #74b9ff;
+        }
+    </style>
+</asp:Content>
+
+<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    <div class="pruebas-wrapper">
+        <h2>🔧 Pruebas WebService - Reportes de Ganancias</h2>
+        
+        <div class="webservice-info">
+            <h3 style="color: #00ffc8;">📡 Información del WebService</h3>
+            <p><strong>Namespace:</strong> http://uai-shop.com/reportes/</p>
+            <p><strong>URL WSDL:</strong> <asp:Label ID="lblWSDL" runat="server" CssClass="info"></asp:Label></p>
+            <p><strong>Métodos disponibles:</strong></p>
+            <ul>
+                <li>ObtenerGananciasGeneral()</li>
+                <li>ObtenerGananciasUltimoMes()</li>
+                <li>ObtenerGananciasSemanal()</li>
+                <li>ObtenerEstadisticasGanancias(string tipoReporte)</li>
+                <li>ObtenerCategoriaLider(string tipoReporte)</li>
+                <li>Ping()</li>
+            </ul>
+        </div>
+
+        <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
+            <ContentTemplate>
+                <div class="test-section">
+                    <h4 style="color: #00ffc8;">🧪 Métodos de Prueba</h4>
+                    
+                    <asp:Button ID="btnPing" runat="server" Text="🏓 Ping" 
+                        CssClass="btn-test" OnClick="btnPing_Click" />
+                    
+                    <asp:Button ID="btnGananciasGeneral" runat="server" Text="📊 Ganancias General" 
+                        CssClass="btn-test" OnClick="btnGananciasGeneral_Click" />
+                    
+                    <asp:Button ID="btnGananciasUltimoMes" runat="server" Text="📅 Ganancias Último Mes" 
+                        CssClass="btn-test" OnClick="btnGananciasUltimoMes_Click" />
+                    
+                    <asp:Button ID="btnGananciasSemanal" runat="server" Text="⚡ Ganancias Semanal" 
+                        CssClass="btn-test" OnClick="btnGananciasSemanal_Click" />
+                    
+                    <asp:Button ID="btnEstadisticasGeneral" runat="server" Text="📈 Estadísticas General" 
+                        CssClass="btn-test" OnClick="btnEstadisticasGeneral_Click" />
+                    
+                    <asp:Button ID="btnCategoriaLider" runat="server" Text="🏆 Categoría Líder" 
+                        CssClass="btn-test" OnClick="btnCategoriaLider_Click" />
+                    
+                    <br />
+                    <asp:Button ID="btnLimpiar" runat="server" Text="🧹 Limpiar Resultado" 
+                        CssClass="btn-test" OnClick="btnLimpiar_Click" />
+                </div>
+
+                <div class="test-section">
+                    <h4 style="color: #00ffc8;">📋 Resultado de Prueba</h4>
+                    <asp:Panel ID="panelResultado" runat="server" CssClass="result-panel">
+                        <asp:Label ID="lblResultado" runat="server" Text="Haga clic en un botón para ejecutar una prueba del WebService..."></asp:Label>
+                    </asp:Panel>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>
+</asp:Content>
