@@ -35,7 +35,20 @@ public partial class ReporteGanancias : System.Web.UI.Page
 
     protected void btnBuscarFiltros_Click(object sender, EventArgs e)
     {
-        CargarReporteConFiltros();
+        // Mostrar loading state
+        btnBuscarFiltros.Text = "⏳ Buscando...";
+        btnBuscarFiltros.Enabled = false;
+        
+        try
+        {
+            CargarReporteConFiltros();
+        }
+        finally
+        {
+            // Restaurar estado del botón
+            btnBuscarFiltros.Text = "🔍 Buscar";
+            btnBuscarFiltros.Enabled = true;
+        }
     }
 
     private void CargarReporteGeneral()
@@ -181,6 +194,12 @@ public partial class ReporteGanancias : System.Web.UI.Page
             gvReporteGanancias.DataSource = reportes;
             gvReporteGanancias.DataBind();
 
+            // Mostrar feedback de resultados
+            lblResultados.Text = string.Format("✅ {0} resultado{1} encontrado{1}", 
+                reportes.Length, reportes.Length == 1 ? "" : "s");
+            lblResultados.ForeColor = System.Drawing.Color.LightGreen;
+            lblResultados.Visible = true;
+
             // Generar estadísticas
             GenerarEstadisticas(reportes, tipoReporte);
             
@@ -193,9 +212,13 @@ public partial class ReporteGanancias : System.Web.UI.Page
             gvReporteGanancias.DataSource = null;
             gvReporteGanancias.DataBind();
             
-            lblEstadisticas.Text = "📊 " + tipoReporte + "<br/>No se encontraron resultados con los criterios especificados.";
-            lblEstadisticas.ForeColor = System.Drawing.Color.Orange;
-            panelEstadisticas.Visible = true;
+            // Mostrar feedback de sin resultados
+            lblResultados.Text = "⚠️ No se encontraron resultados";
+            lblResultados.ForeColor = System.Drawing.Color.Orange;
+            lblResultados.Visible = true;
+            
+            // No mostrar KPIs cuando no hay datos
+            panelEstadisticas.Visible = false;
         }
     }
 
@@ -207,11 +230,8 @@ public partial class ReporteGanancias : System.Web.UI.Page
         try
         {
             // Calcular estadísticas generales
-            int totalCategorias = reportes.Length;
             int totalVentas = reportes.Sum(r => r.CantidadVentas);
-            int totalUnidades = reportes.Sum(r => r.UnidadesVendidas);
             decimal totalVentasMonto = reportes.Sum(r => r.VentaTotal);
-            decimal totalCostos = reportes.Sum(r => r.CostoTotal);
             decimal totalGanancias = reportes.Sum(r => r.GananciaTotal);
             
             // Calcular porcentaje de ganancia general
@@ -224,33 +244,19 @@ public partial class ReporteGanancias : System.Web.UI.Page
                 .OrderByDescending(r => r.GananciaTotal)
                 .FirstOrDefault();
 
-            // Encontrar la categoría con más ventas
-            var categoriaTopVentas = reportes
-                .OrderByDescending(r => r.CantidadVentas)
-                .FirstOrDefault();
-
-            // Construir texto de estadísticas
-            string estadisticas = 
-                "<strong>" + tipoReporte + "</strong><br/>" +
-                "📊 <strong>Resumen General:</strong><br/>" +
-                "• Categorías analizadas: <strong>" + totalCategorias + "</strong><br/>" +
-                "• Total de ventas: <strong>" + totalVentas.ToString("N0") + "</strong> transacciones<br/>" +
-                "• Total de unidades: <strong>" + totalUnidades.ToString("N0") + "</strong><br/>" +
-                "• Facturación total: <strong>" + totalVentasMonto.ToString("C") + "</strong><br/>" +
-                "• Costos totales: <strong>" + totalCostos.ToString("C") + "</strong><br/>" +
-                "• 💰 <strong>Ganancias totales: " + totalGanancias.ToString("C") + "</strong><br/>" +
-                "• 📈 <strong>Margen de ganancia: " + porcentajeGeneral.ToString("N1") + "%</strong><br/><br/>" +
-                "🏆 <strong>Destacados:</strong><br/>" +
-                "• Categoría más rentable: <strong>" + (categoriaTopGanancia != null ? categoriaTopGanancia.Categoria : "N/A") + "</strong> (" + (categoriaTopGanancia != null ? categoriaTopGanancia.GananciaTotal.ToString("C") : "$0") + ")<br/>" +
-                "• Categoría con más ventas: <strong>" + (categoriaTopVentas != null ? categoriaTopVentas.Categoria : "N/A") + "</strong> (" + (categoriaTopVentas != null ? categoriaTopVentas.CantidadVentas.ToString("N0") : "0") + " ventas)";
-
-            lblEstadisticas.Text = estadisticas;
-            lblEstadisticas.ForeColor = System.Drawing.Color.FromName("#00ffc8");
+            // Poblar KPIs
+            lblGananciaTotal.Text = totalGanancias.ToString("C");
+            lblMargenPromedio.Text = porcentajeGeneral.ToString("N1") + "%";
+            lblTotalVentas.Text = totalVentas.ToString("N0");
+            lblCategoriaTop.Text = categoriaTopGanancia != null ? categoriaTopGanancia.Categoria : "N/A";
         }
         catch (Exception ex)
         {
-            lblEstadisticas.Text = "📊 " + tipoReporte + "<br/>Error al generar estadísticas: " + ex.Message;
-            lblEstadisticas.ForeColor = System.Drawing.Color.Red;
+            // En caso de error, mostrar valores por defecto
+            lblGananciaTotal.Text = "Error";
+            lblMargenPromedio.Text = "N/A";
+            lblTotalVentas.Text = "0";
+            lblCategoriaTop.Text = "Error";
         }
     }
 
@@ -260,9 +266,12 @@ public partial class ReporteGanancias : System.Web.UI.Page
         gvReporteGanancias.DataSource = null;
         gvReporteGanancias.DataBind();
         
-        // Mostrar mensaje de error
-        lblEstadisticas.Text = "❌ " + mensaje;
-        lblEstadisticas.ForeColor = System.Drawing.Color.Red;
-        panelEstadisticas.Visible = true;
+        // Mostrar mensaje de error en resultados
+        lblResultados.Text = "❌ " + mensaje;
+        lblResultados.ForeColor = System.Drawing.Color.Red;
+        lblResultados.Visible = true;
+        
+        // No mostrar KPIs cuando hay error
+        panelEstadisticas.Visible = false;
     }
 }

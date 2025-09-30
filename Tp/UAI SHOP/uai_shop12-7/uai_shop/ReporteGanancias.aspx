@@ -178,7 +178,11 @@
         .filtro-group input:focus, .dropdown-categoria:focus {
             border-color: #00ffc8;
             outline: none;
-            box-shadow: 0 0 10px #00ffc844;
+            box-shadow: 0 0 10px rgba(0, 255, 200, 0.3);
+        }
+
+        .filtro-group input:hover, .dropdown-categoria:hover {
+            border-color: rgba(0, 255, 200, 0.5);
         }
 
         .filtro-actions {
@@ -203,15 +207,81 @@
             box-shadow: 0 4px 15px #00ffc844;
         }
 
-        .estadisticas {
+        .resultados-info {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 1em;
+            text-align: center;
+            padding: 10px;
+            border-radius: 6px;
+            background-color: rgba(0, 255, 200, 0.1);
+            border: 1px solid rgba(0, 255, 200, 0.3);
+            animation: fadeInResult 0.5s ease-in-out;
+        }
+
+        @keyframes fadeInResult {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .kpis-container {
+            margin-bottom: 30px;
+        }
+
+        .kpis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .kpi-card {
             background: linear-gradient(135deg, #1e2936, #26343f);
             border-radius: 12px;
             padding: 20px;
-            margin-bottom: 30px;
             border: 1px solid #00ffc833;
-            text-align: center;
-            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 200, 0.15);
+        }
+
+        .kpi-icon {
+            font-size: 2.5em;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 255, 200, 0.1);
+            border-radius: 10px;
+            flex-shrink: 0;
+        }
+
+        .kpi-content {
+            flex: 1;
+        }
+
+        .kpi-value {
+            display: block;
+            font-size: 1.8em;
+            font-weight: bold;
             color: #00ffc8;
+            margin-bottom: 5px;
+        }
+
+        .kpi-label {
+            display: block;
+            font-size: 0.9em;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .grid-container {
@@ -220,6 +290,18 @@
             padding: 25px;
             border: 1px solid #00ffc833;
             overflow-x: auto;
+            animation: fadeInGrid 0.6s ease-in-out;
+        }
+
+        @keyframes fadeInGrid {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.98);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+            }
         }
 
         .grid-view {
@@ -244,6 +326,7 @@
             border-bottom: 1px solid #30363d;
             color: #e0e0e0;
             text-align: center;
+            transition: background-color 0.3s ease;
         }
 
         .grid-view tr:nth-child(even) {
@@ -401,18 +484,18 @@
                             <div class="filtro-group">
                                 <label>💰 Rango de Costos:</label>
                                 <div class="rango-inputs">
-                                    <asp:TextBox ID="txtCostoMin" runat="server" placeholder="$0" />
+                                    <asp:TextBox ID="txtCostoMin" runat="server" placeholder="Mín. $0" />
                                     <span>-</span>
-                                    <asp:TextBox ID="txtCostoMax" runat="server" placeholder="$9999" />
+                                    <asp:TextBox ID="txtCostoMax" runat="server" placeholder="Máx. $50000" />
                                 </div>
                             </div>
                             
                             <div class="filtro-group">
                                 <label>📊 Rango de Ventas:</label>
                                 <div class="rango-inputs">
-                                    <asp:TextBox ID="txtVentasMin" runat="server" placeholder="0" />
+                                    <asp:TextBox ID="txtVentasMin" runat="server" placeholder="Mín. 1" />
                                     <span>-</span>
-                                    <asp:TextBox ID="txtVentasMax" runat="server" placeholder="999" />
+                                    <asp:TextBox ID="txtVentasMax" runat="server" placeholder="Máx. 1000" />
                                 </div>
                             </div>
                         </div>
@@ -421,23 +504,56 @@
                             <div class="filtro-group">
                                 <label>💵 Rango de Precios:</label>
                                 <div class="rango-inputs">
-                                    <asp:TextBox ID="txtPrecioMin" runat="server" placeholder="$0" />
+                                    <asp:TextBox ID="txtPrecioMin" runat="server" placeholder="Mín. $100" />
                                     <span>-</span>
-                                    <asp:TextBox ID="txtPrecioMax" runat="server" placeholder="$9999" />
+                                    <asp:TextBox ID="txtPrecioMax" runat="server" placeholder="Máx. $100000" />
                                 </div>
                             </div>
                         </div>
                         
                         <div class="filtro-actions">
-                            <asp:Button ID="btnBuscarFiltros" runat="server" Text="� Buscar con Filtros" 
+                            <asp:Button ID="btnBuscarFiltros" runat="server" Text="🔍 Buscar" 
                                 CssClass="btn-buscar" OnClick="btnBuscarFiltros_Click" />
+                            <asp:Label ID="lblResultados" runat="server" CssClass="resultados-info" Visible="false"></asp:Label>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Panel de Estadísticas -->
-                <asp:Panel ID="panelEstadisticas" runat="server" CssClass="estadisticas" Visible="false">
-                    <asp:Label ID="lblEstadisticas" runat="server" Text=""></asp:Label>
+                <!-- Panel de Estadísticas KPIs -->
+                <asp:Panel ID="panelEstadisticas" runat="server" CssClass="kpis-container" Visible="false">
+                    <div class="kpis-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-icon">💰</div>
+                            <div class="kpi-content">
+                                <asp:Label ID="lblGananciaTotal" runat="server" CssClass="kpi-value"></asp:Label>
+                                <span class="kpi-label">Ganancia Total</span>
+                            </div>
+                        </div>
+                        
+                        <div class="kpi-card">
+                            <div class="kpi-icon">📈</div>
+                            <div class="kpi-content">
+                                <asp:Label ID="lblMargenPromedio" runat="server" CssClass="kpi-value"></asp:Label>
+                                <span class="kpi-label">Margen Promedio</span>
+                            </div>
+                        </div>
+                        
+                        <div class="kpi-card">
+                            <div class="kpi-icon">🛒</div>
+                            <div class="kpi-content">
+                                <asp:Label ID="lblTotalVentas" runat="server" CssClass="kpi-value"></asp:Label>
+                                <span class="kpi-label">Total Ventas</span>
+                            </div>
+                        </div>
+                        
+                        <div class="kpi-card">
+                            <div class="kpi-icon">🏆</div>
+                            <div class="kpi-content">
+                                <asp:Label ID="lblCategoriaTop" runat="server" CssClass="kpi-value"></asp:Label>
+                                <span class="kpi-label">Mejor Categoría</span>
+                            </div>
+                        </div>
+                    </div>
                 </asp:Panel>
                 
                 <!-- Grid de Resultados -->
@@ -547,5 +663,39 @@
             }
         `;
         document.head.appendChild(style);
+        
+        // Validación de rangos en tiempo real
+        function initializeRangeValidation() {
+            var costoMin = document.getElementById('txtCostoMin');
+            var costoMax = document.getElementById('txtCostoMax');
+            var precioMin = document.getElementById('txtPrecioMin');
+            var precioMax = document.getElementById('txtPrecioMax');
+            
+            function validateRange(minInput, maxInput) {
+                var minVal = parseFloat(minInput.value.replace(/[^0-9.-]/g, '')) || 0;
+                var maxVal = parseFloat(maxInput.value.replace(/[^0-9.-]/g, '')) || 0;
+                
+                if (minInput.value && maxInput.value && minVal > maxVal) {
+                    minInput.style.borderColor = '#ff6b6b';
+                    maxInput.style.borderColor = '#ff6b6b';
+                } else {
+                    minInput.style.borderColor = '';
+                    maxInput.style.borderColor = '';
+                }
+            }
+            
+            if (costoMin && costoMax) {
+                costoMin.addEventListener('blur', function() { validateRange(costoMin, costoMax); });
+                costoMax.addEventListener('blur', function() { validateRange(costoMin, costoMax); });
+            }
+            
+            if (precioMin && precioMax) {
+                precioMin.addEventListener('blur', function() { validateRange(precioMin, precioMax); });
+                precioMax.addEventListener('blur', function() { validateRange(precioMin, precioMax); });
+            }
+        }
+        
+        // Inicializar validación después del DOM
+        setTimeout(initializeRangeValidation, 100);
     </script>
 </asp:Content>
