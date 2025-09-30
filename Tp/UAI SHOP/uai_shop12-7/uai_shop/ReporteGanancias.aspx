@@ -231,7 +231,7 @@
 
         .kpis-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin: 20px 0;
         }
@@ -245,6 +245,8 @@
             align-items: center;
             gap: 15px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-height: 80px;
+            overflow: hidden;
         }
 
         .kpi-card:hover {
@@ -270,10 +272,13 @@
 
         .kpi-value {
             display: block;
-            font-size: 1.8em;
+            font-size: 1.5em;
             font-weight: bold;
             color: #00ffc8;
             margin-bottom: 5px;
+            line-height: 1.2;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .kpi-label {
@@ -623,31 +628,47 @@
     </div>
 
     <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggleFiltros = document.getElementById('toggleFiltros');
-            const ocultarFiltros = document.getElementById('ocultarFiltros');
-            const filtrosAvanzados = document.getElementById('filtrosAvanzados');
+        function initializeFiltrosToggle() {
+            var toggleFiltros = document.getElementById('toggleFiltros');
+            var ocultarFiltros = document.getElementById('ocultarFiltros');
+            var filtrosAvanzados = document.getElementById('filtrosAvanzados');
             
-            // Mostrar filtros avanzados
-            toggleFiltros.addEventListener('click', function() {
-                filtrosAvanzados.style.display = 'block';
-                filtrosAvanzados.style.animation = 'fadeIn 0.3s ease-in-out';
+            if (toggleFiltros && filtrosAvanzados && ocultarFiltros) {
+                // Limpiar eventos anteriores
+                toggleFiltros.onclick = null;
+                ocultarFiltros.onclick = null;
                 
-                // Scroll suave hacia los filtros
-                filtrosAvanzados.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'start' 
-                });
-            });
-            
-            // Ocultar filtros avanzados
-            ocultarFiltros.addEventListener('click', function() {
-                filtrosAvanzados.style.animation = 'fadeOut 0.3s ease-in-out';
-                setTimeout(function() {
-                    filtrosAvanzados.style.display = 'none';
-                }, 300);
-            });
-        });
+                // Mostrar filtros avanzados
+                toggleFiltros.onclick = function() {
+                    filtrosAvanzados.style.display = 'block';
+                    filtrosAvanzados.style.animation = 'fadeIn 0.3s ease-in-out';
+                    
+                    // Scroll suave hacia los filtros
+                    filtrosAvanzados.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                    return false;
+                };
+                
+                // Ocultar filtros avanzados
+                ocultarFiltros.onclick = function() {
+                    filtrosAvanzados.style.animation = 'fadeOut 0.3s ease-in-out';
+                    setTimeout(function() {
+                        filtrosAvanzados.style.display = 'none';
+                    }, 300);
+                    return false;
+                };
+            }
+        }
+        
+        // Usar pageLoad para compatibilidad con UpdatePanel
+        function pageLoad() {
+            initializeFiltrosToggle();
+        }
+        
+        // Inicializar también al cargar por primera vez
+        document.addEventListener('DOMContentLoaded', initializeFiltrosToggle);
         
         // Animaciones CSS
         const style = document.createElement('style');
