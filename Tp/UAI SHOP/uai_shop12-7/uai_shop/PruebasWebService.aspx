@@ -1,13 +1,14 @@
 <%@ Page Title="Pruebas WebService" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="PruebasWebService.aspx.cs" Inherits="PruebasWebService" %>
 
 <asp:Content ID="HeadContent" ContentPlaceHolderID="head" runat="server">
+    <meta charset="utf-8" />
     <style>
         body, html {
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: #e0e0e0;
+            color: #FFF;
             min-height: 100vh;
         }
 
@@ -34,6 +35,26 @@
             padding: 20px;
             margin-bottom: 30px;
             border: 1px solid #00ffc833;
+            color: #ffffff;
+        }
+
+        .webservice-info h3 {
+            color: #00ffc8 !important;
+            margin-bottom: 15px;
+        }
+
+        .webservice-info p {
+            color: #ffffff !important;
+            margin-bottom: 8px;
+        }
+
+        .webservice-info ul {
+            color: #ffffff !important;
+        }
+
+        .webservice-info li {
+            color: #ffffff !important;
+            margin-bottom: 4px;
         }
 
         .test-section {
@@ -42,6 +63,12 @@
             padding: 25px;
             margin-bottom: 20px;
             border: 1px solid #00ffc833;
+            color: #ffffff;
+        }
+
+        .test-section h4 {
+            color: #00ffc8 !important;
+            margin-bottom: 15px;
         }
 
         .btn-test {
@@ -84,7 +111,40 @@
         }
 
         .info {
-            color: #74b9ff;
+            color: #74b9ff !important;
+        }
+
+        /* Reglas adicionales para mejorar visibilidad */
+        .webservice-info strong {
+            color: #00ffc8 !important;
+        }
+
+        .result-panel {
+            color: #ffffff !important;
+        }
+
+        /* Asegurar que todos los labels sean visibles */
+        label, span {
+            color: #ffffff !important;
+        }
+
+        /* Mejorar contraste del título principal */
+        h2 {
+            color: #00ffc8 !important;
+            text-shadow: 0 0 10px #00ffc844 !important;
+            font-size: 2.6rem !important;
+            font-weight: 800 !important;
+        }
+
+        /* Mejorar contraste general */
+        * {
+            text-shadow: none !important;
+        }
+
+        /* Sobrescribir el h2 anterior para el título */
+        .pruebas-wrapper h2 {
+            color: #00ffc8 !important;
+            text-shadow: 0 0 15px #00ffc8 !important;
         }
     </style>
 </asp:Content>
