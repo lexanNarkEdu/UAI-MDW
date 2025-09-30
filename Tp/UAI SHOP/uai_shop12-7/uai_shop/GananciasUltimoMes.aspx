@@ -21,11 +21,18 @@
         }
 
         h2 {
-            color: #00ffc8;
-            font-size: 2.6rem;
-            font-weight: 800;
+            color: #00ffc8 !important;
+            font-size: 2.6rem !important;
+            font-weight: 800 !important;
             margin-bottom: 2rem;
             text-align: center;
+            text-shadow: 0 0 15px #00ffc8 !important;
+        }
+
+        /* Mejorar visibilidad del título */
+        .reporte-wrapper h2 {
+            color: #00ffc8 !important;
+            text-shadow: 0 0 15px #00ffc8 !important;
         }
 
         .periodo-info {
