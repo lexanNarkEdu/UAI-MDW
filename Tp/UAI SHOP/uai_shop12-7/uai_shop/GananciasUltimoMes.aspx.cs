@@ -29,7 +29,7 @@ public partial class GananciasUltimoMes : System.Web.UI.Page
         try
         {
             // Obtener los datos del reporte
-            List<ReporteGanancias> reportes = reportesBll.ObtenerGananciasUltimoMes();
+            List<BE.ReporteGanancias> reportes = reportesBll.ObtenerGananciasUltimoMes();
 
             // Vincular al GridView
             gvGanancias.DataSource = reportes;

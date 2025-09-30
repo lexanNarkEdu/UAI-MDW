@@ -94,10 +94,10 @@ namespace BLL
             var totalUnidades = reportes.Sum(r => r.UnidadesTotales);
             var categorias = reportes.Count;
 
-            return $"Total Categorías: {categorias} | " +
-                   $"Ganancias Totales: ${totalGanancias:N2} | " +
-                   $"Ventas Totales: {totalVentas} | " +
-                   $"Unidades Vendidas: {totalUnidades}";
+            return "Total Categorías: " + categorias + " | " +
+                   "Ganancias Totales: $" + totalGanancias.ToString("N2") + " | " +
+                   "Ventas Totales: " + totalVentas + " | " +
+                   "Unidades Vendidas: " + totalUnidades;
         }
     }
 }

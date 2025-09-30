@@ -191,6 +191,29 @@
                     <asp:Button ID="btnCategoriaLider" runat="server" Text="🏆 Categoría Líder" 
                         CssClass="btn-test" OnClick="btnCategoriaLider_Click" />
                     
+                    
+                    <br />
+                    <hr style="border-color: #00ffc833; margin: 20px 0;" />
+                    <h5 style="color: #a29bfe; margin: 15px 0;">⭐ Reporte Dinámico V2</h5>
+                    
+                    <asp:Button ID="btnReporteV2General" runat="server" Text="🔥 Reporte V2 - Todo" 
+                        CssClass="btn-test" OnClick="btnReporteV2General_Click" />
+                    
+                    <asp:Button ID="btnReporteV2UltimoMes" runat="server" Text="📅 V2 - Último Mes" 
+                        CssClass="btn-test" OnClick="btnReporteV2UltimoMes_Click" />
+                    
+                    <asp:Button ID="btnReporteV2Categoria" runat="server" Text="📂 V2 - Por Categoría" 
+                        CssClass="btn-test" OnClick="btnReporteV2Categoria_Click" />
+                    
+                    <asp:Button ID="btnReporteV2Filtros" runat="server" Text="🎯 V2 - Con Filtros" 
+                        CssClass="btn-test" OnClick="btnReporteV2Filtros_Click" />
+                    
+                    <asp:Button ID="btnEstadisticasV2" runat="server" Text="📊 Estadísticas V2" 
+                        CssClass="btn-test" OnClick="btnEstadisticasV2_Click" />
+                    
+                    <asp:Button ID="btnResumenEjecutivoV2" runat="server" Text="📋 Resumen Ejecutivo V2" 
+                        CssClass="btn-test" OnClick="btnResumenEjecutivoV2_Click" />
+
                     <br />
                     <asp:Button ID="btnLimpiar" runat="server" Text="🧹 Limpiar Resultado" 
                         CssClass="btn-test" OnClick="btnLimpiar_Click" />

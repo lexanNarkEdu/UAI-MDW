@@ -162,7 +162,7 @@ namespace BLL.Servicios
             if (mlistaErrores.Any())
             {
                 IntegridadCorrupta = true;
-                BitacoraBL.RegistrarBitacoraSinUsuario(TipoEvento.Error, $"La integridad de la base de datos esta corrupta: {string.Join("\r\n", mlistaErrores)} ");               
+                BitacoraBL.RegistrarBitacoraSinUsuario(TipoEvento.Error, "La integridad de la base de datos esta corrupta: " + string.Join("\r\n", mlistaErrores) + " ");               
                 //throw new Excepciones.IntegridadBaseDeDatosException(ConstantesDeTexto.Error_integridad);
             }
             else

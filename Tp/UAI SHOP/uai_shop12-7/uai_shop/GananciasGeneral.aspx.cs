@@ -29,7 +29,7 @@ public partial class GananciasGeneral : System.Web.UI.Page
         try
         {
             // Obtener los datos del reporte
-            List<ReporteGanancias> reportes = reportesBll.ObtenerGananciasGeneral();
+            List<BE.ReporteGanancias> reportes = reportesBll.ObtenerGananciasGeneral();
 
             // Vincular al GridView
             gvGanancias.DataSource = reportes;

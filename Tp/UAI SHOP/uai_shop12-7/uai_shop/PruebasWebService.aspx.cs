@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BE;
+using BLL;
 
 public partial class PruebasWebService : System.Web.UI.Page
 {
@@ -43,18 +43,18 @@ public partial class PruebasWebService : System.Web.UI.Page
         try
         {
             webService = new ReportingWebService();
-            ReporteGanancias[] reportes = webService.ObtenerGananciasGeneral();
+            BE.ReporteGananciasV2[] reportes = webService.ObtenerReporteGananciasV2("", "", 0, 0, 0, 0, 0);
             
-            string resultado = "📊 GANANCIAS GENERAL - RESULTADOS:\n\n";
+            string resultado = "📊 REPORTE DINÁMICO V2 - RESULTADOS:\n\n";
             resultado += "Total de categorías: " + reportes.Length + "\n\n";
             
             foreach (var reporte in reportes)
             {
-                resultado += $"Categoría: {reporte.Categoria}\n";
-                resultado += $"  - Ventas: {reporte.VentasConEstaCategoria}\n";
-                resultado += $"  - Unidades: {reporte.UnidadesTotales}\n";
-                resultado += $"  - Precio Promedio: ${reporte.PrecioPromedio:N2}\n";
-                resultado += $"  - Ganancia Total: ${reporte.GananciaTotal:N2}\n\n";
+                resultado += "Categoría: " + reporte.Categoria + "\n";
+                resultado += "  - Ventas: " + reporte.CantidadVentas + "\n";
+                resultado += "  - Unidades: " + reporte.UnidadesVendidas + "\n";
+                resultado += "  - Venta Total: $" + reporte.VentaTotal.ToString("N2") + "\n";
+                resultado += "  - Ganancia Total: $" + reporte.GananciaTotal.ToString("N2") + "\n\n";
             }
             
             MostrarResultado("✅ GANANCIAS GENERAL OBTENIDAS", resultado, "success");
@@ -70,18 +70,18 @@ public partial class PruebasWebService : System.Web.UI.Page
         try
         {
             webService = new ReportingWebService();
-            ReporteGanancias[] reportes = webService.ObtenerGananciasUltimoMes();
+            BE.ReporteGanancias[] reportes = webService.ObtenerGananciasUltimoMes();
             
             string resultado = "📅 GANANCIAS ÚLTIMO MES - RESULTADOS:\n\n";
             resultado += "Total de categorías: " + reportes.Length + "\n\n";
             
             foreach (var reporte in reportes)
             {
-                resultado += $"Categoría: {reporte.Categoria}\n";
-                resultado += $"  - Ventas (30 días): {reporte.VentasConEstaCategoria}\n";
-                resultado += $"  - Unidades: {reporte.UnidadesTotales}\n";
-                resultado += $"  - Precio Promedio: ${reporte.PrecioPromedio:N2}\n";
-                resultado += $"  - Ganancia Total: ${reporte.GananciaTotal:N2}\n\n";
+                resultado += "Categoría: " + reporte.Categoria + "\n";
+                resultado += "  - Ventas (30 días): " + reporte.VentasConEstaCategoria + "\n";
+                resultado += "  - Unidades: " + reporte.UnidadesTotales + "\n";
+                resultado += "  - Precio Promedio: $" + reporte.PrecioPromedio.ToString("N2") + "\n";
+                resultado += "  - Ganancia Total: $" + reporte.GananciaTotal.ToString("N2") + "\n\n";
             }
             
             MostrarResultado("✅ GANANCIAS ÚLTIMO MES OBTENIDAS", resultado, "success");
@@ -97,18 +97,18 @@ public partial class PruebasWebService : System.Web.UI.Page
         try
         {
             webService = new ReportingWebService();
-            ReporteGanancias[] reportes = webService.ObtenerGananciasSemanal();
+            BE.ReporteGanancias[] reportes = webService.ObtenerGananciasSemanal();
             
             string resultado = "⚡ GANANCIAS SEMANAL - RESULTADOS:\n\n";
             resultado += "Total de categorías: " + reportes.Length + "\n\n";
             
             foreach (var reporte in reportes)
             {
-                resultado += $"Categoría: {reporte.Categoria}\n";
-                resultado += $"  - Ventas (7 días): {reporte.VentasConEstaCategoria}\n";
-                resultado += $"  - Unidades: {reporte.UnidadesTotales}\n";
-                resultado += $"  - Precio Promedio: ${reporte.PrecioPromedio:N2}\n";
-                resultado += $"  - Ganancia Total: ${reporte.GananciaTotal:N2}\n\n";
+                resultado += "Categoría: " + reporte.Categoria + "\n";
+                resultado += "  - Ventas (7 días): " + reporte.VentasConEstaCategoria + "\n";
+                resultado += "  - Unidades: " + reporte.UnidadesTotales + "\n";
+                resultado += "  - Precio Promedio: $" + reporte.PrecioPromedio.ToString("N2") + "\n";
+                resultado += "  - Ganancia Total: $" + reporte.GananciaTotal.ToString("N2") + "\n\n";
             }
             
             MostrarResultado("✅ GANANCIAS SEMANAL OBTENIDAS", resultado, "success");
@@ -141,22 +141,171 @@ public partial class PruebasWebService : System.Web.UI.Page
         try
         {
             webService = new ReportingWebService();
-            ReporteGanancias lider = webService.ObtenerCategoriaLider("general");
+            string resumen = webService.GenerarResumenEjecutivoV2("ultimo_mes");
             
-            string resultado = "🏆 CATEGORÍA LÍDER:\n\n";
-            resultado += $"Categoría: {lider.Categoria}\n";
-            resultado += $"Ventas: {lider.VentasConEstaCategoria}\n";
-            resultado += $"Unidades: {lider.UnidadesTotales}\n";
-            resultado += $"Precio Promedio: ${lider.PrecioPromedio:N2}\n";
-            resultado += $"Ganancia Total: ${lider.GananciaTotal:N2}";
+            string resultado = "🏆 RESUMEN EJECUTIVO:\n\n";
+            resultado += resumen;
             
-            MostrarResultado("✅ CATEGORÍA LÍDER OBTENIDA", resultado, "success");
+            MostrarResultado("✅ RESUMEN EJECUTIVO OBTENIDO", resultado, "success");
         }
         catch (Exception ex)
         {
             MostrarResultado("❌ ERROR AL OBTENER CATEGORÍA LÍDER", ex.Message, "error");
         }
     }
+
+    #region Pruebas ReporteGananciasV2
+
+    protected void btnReporteV2General_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            webService = new ReportingWebService();
+            ReporteGananciasV2[] reportes = webService.ObtenerReporteGananciasV2();
+            
+            string resultado = "🔥 REPORTE DINÁMICO V2 - TODOS LOS DATOS:\n\n";
+            resultado += $"Total de categorías: {reportes.Length}\n\n";
+            
+            foreach (var reporte in reportes)
+            {
+                resultado += $"📂 {reporte.Categoria}\n";
+                resultado += $"  • Ventas: {reporte.CantidadVentas} | Unidades: {reporte.UnidadesVendidas}\n";
+                resultado += $"  • Facturación: ${reporte.VentaTotal:N2} | Costos: ${reporte.CostoTotal:N2}\n";
+                resultado += $"  • 💎 Ganancia: ${reporte.GananciaTotal:N2} ({ReporteGananciasV2BLL.CalcularPorcentajeGanancia(reporte):N1}%)\n";
+                resultado += $"  • Precio Prom: ${ReporteGananciasV2BLL.CalcularPrecioPromedio(reporte):N2} | Margen Unit: ${ReporteGananciasV2BLL.CalcularMargenUnitario(reporte):N2}\n\n";
+            }
+            
+            MostrarResultado("✅ REPORTE V2 GENERAL OBTENIDO", resultado, "success");
+        }
+        catch (Exception ex)
+        {
+            MostrarResultado("❌ ERROR AL OBTENER REPORTE V2", ex.Message, "error");
+        }
+    }
+
+    protected void btnReporteV2UltimoMes_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            webService = new ReportingWebService();
+            ReporteGananciasV2[] reportes = webService.ObtenerReporteV2PorPeriodo("ultimo_mes");
+            
+            string resultado = "📅 REPORTE V2 - ÚLTIMO MES (30 días):\n\n";
+            resultado += $"Total de categorías: {reportes.Length}\n\n";
+            
+            foreach (var reporte in reportes)
+            {
+                resultado += $"📂 {reporte.Categoria}\n";
+                resultado += $"  • Ventas último mes: {reporte.CantidadVentas}\n";
+                resultado += $"  • Unidades vendidas: {reporte.UnidadesVendidas}\n";
+                resultado += $"  • 💎 Ganancia: ${reporte.GananciaTotal:N2}\n";
+                resultado += $"  • Margen: {ReporteGananciasV2BLL.CalcularPorcentajeGanancia(reporte):N1}%\n\n";
+            }
+            
+            MostrarResultado("✅ REPORTE V2 ÚLTIMO MES OBTENIDO", resultado, "success");
+        }
+        catch (Exception ex)
+        {
+            MostrarResultado("❌ ERROR AL OBTENER REPORTE V2 ÚLTIMO MES", ex.Message, "error");
+        }
+    }
+
+    protected void btnReporteV2Categoria_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            webService = new ReportingWebService();
+            // Probar con categoría Hardware de Computacion (ID = 1)
+            ReporteGananciasV2[] reportes = webService.ObtenerReporteV2PorCategoria(1);
+            
+            string resultado = "📂 REPORTE V2 - HARDWARE DE COMPUTACION:\n\n";
+            
+            if (reportes.Length > 0)
+            {
+                var reporte = reportes[0];
+                resultado += $"Categoría: {reporte.Categoria}\n";
+                resultado += $"Cantidad de Ventas: {reporte.CantidadVentas}\n";
+                resultado += $"Unidades Vendidas: {reporte.UnidadesVendidas}\n";
+                resultado += $"Venta Total: ${reporte.VentaTotal:N2}\n";
+                resultado += $"Costo Total: ${reporte.CostoTotal:N2}\n";
+                resultado += $"💎 Ganancia Total: ${reporte.GananciaTotal:N2}\n";
+                resultado += $"📊 Porcentaje Ganancia: {ReporteGananciasV2BLL.CalcularPorcentajeGanancia(reporte):N2}%\n";
+                resultado += $"Precio Promedio: ${ReporteGananciasV2BLL.CalcularPrecioPromedio(reporte):N2}\n";
+                resultado += $"Costo Promedio: ${ReporteGananciasV2BLL.CalcularCostoPromedio(reporte):N2}\n";
+                resultado += $"Margen Unitario: ${ReporteGananciasV2BLL.CalcularMargenUnitario(reporte):N2}";
+            }
+            else
+            {
+                resultado += "No se encontraron datos para esta categoría.";
+            }
+            
+            MostrarResultado("✅ REPORTE V2 POR CATEGORÍA OBTENIDO", resultado, "success");
+        }
+        catch (Exception ex)
+        {
+            MostrarResultado("❌ ERROR AL OBTENER REPORTE V2 POR CATEGORÍA", ex.Message, "error");
+        }
+    }
+
+    protected void btnReporteV2Filtros_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            webService = new ReportingWebService();
+            // Probar con filtros: precios entre $1000 y $50000
+            ReporteGananciasV2[] reportes = webService.ObtenerReporteGananciasV2(
+                null, null, 0, 1000, 50000, 0, 0);
+            
+            string resultado = "🎯 REPORTE V2 - CON FILTROS (Precios $1,000 - $50,000):\n\n";
+            resultado += $"Total de categorías filtradas: {reportes.Length}\n\n";
+            
+            foreach (var reporte in reportes)
+            {
+                resultado += $"📂 {reporte.Categoria}\n";
+                resultado += $"  • Ventas: {reporte.CantidadVentas} | Unidades: {reporte.UnidadesVendidas}\n";
+                resultado += $"  • 💎 Ganancia: ${reporte.GananciaTotal:N2} ({ReporteGananciasV2BLL.CalcularPorcentajeGanancia(reporte):N1}%)\n";
+                resultado += $"  • Precio Prom: ${ReporteGananciasV2BLL.CalcularPrecioPromedio(reporte):N2}\n\n";
+            }
+            
+            MostrarResultado("✅ REPORTE V2 CON FILTROS OBTENIDO", resultado, "success");
+        }
+        catch (Exception ex)
+        {
+            MostrarResultado("❌ ERROR AL OBTENER REPORTE V2 CON FILTROS", ex.Message, "error");
+        }
+    }
+
+    protected void btnEstadisticasV2_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            webService = new ReportingWebService();
+            string estadisticas = webService.ObtenerEstadisticasV2("ultimo_mes");
+            
+            MostrarResultado("✅ ESTADÍSTICAS V2 OBTENIDAS", estadisticas, "success");
+        }
+        catch (Exception ex)
+        {
+            MostrarResultado("❌ ERROR AL OBTENER ESTADÍSTICAS V2", ex.Message, "error");
+        }
+    }
+
+    protected void btnResumenEjecutivoV2_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            webService = new ReportingWebService();
+            string resumen = webService.GenerarResumenEjecutivoV2("ultimo_mes");
+            
+            MostrarResultado("✅ RESUMEN EJECUTIVO V2 GENERADO", resumen, "info");
+        }
+        catch (Exception ex)
+        {
+            MostrarResultado("❌ ERROR AL GENERAR RESUMEN EJECUTIVO V2", ex.Message, "error");
+        }
+    }
+
+    #endregion
 
     protected void btnLimpiar_Click(object sender, EventArgs e)
     {

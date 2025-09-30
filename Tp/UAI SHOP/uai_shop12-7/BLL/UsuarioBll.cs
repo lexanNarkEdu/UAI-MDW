@@ -39,7 +39,7 @@ namespace BLL
 
                 if (secureIntegrity)
                 {
-                    mIntegridadBL.ActualizarSpecificDVH(nameof(Usuario), usuarioDesdeDAL.Id_Usuario);
+                    mIntegridadBL.ActualizarSpecificDVH("Usuario", usuarioDesdeDAL.Id_Usuario);
                     mIntegridadBL.ActualizarDVV();
                 }
 
