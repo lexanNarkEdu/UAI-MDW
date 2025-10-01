@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
 using BE;
+using BE.Servicios;
+using BLL.Servicios;
+using uai_shop;
 
 public partial class ReporteGanancias : System.Web.UI.Page
 {
@@ -12,12 +16,31 @@ public partial class ReporteGanancias : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
+        try
         {
-            // Cargar categorías en el dropdown
-            CargarCategorias();
-            // Cargar reporte general por defecto
-            CargarReporteGeneral();
+            Usuario usuarioLogueado = (Usuario)Session["Usuario"];
+            
+            // Verificar autorización usando el sistema existente
+            if (!AutorizacionHelper.PuedeAccederAPagina(usuarioLogueado, "ReporteGanancias.aspx"))
+            {
+                Response.Redirect("Default.aspx");
+                return;
+            }
+            
+            // Registrar auditoría de acceso a la página
+            RegistrarAuditoriaAcceso();
+            
+            if (!IsPostBack)
+            {
+                // Cargar categorías en el dropdown
+                CargarCategorias();
+                // Cargar reporte general por defecto
+                CargarReporteGeneral();
+            }
+        }
+        catch (Exception ex)
+        {
+            Response.Redirect("Default.aspx");
         }
     }
 
@@ -290,6 +313,28 @@ public partial class ReporteGanancias : System.Web.UI.Page
         {
             // Log del error pero no mostrar al usuario ya que es carga inicial
             System.Diagnostics.Debug.WriteLine("Error al cargar categorías: " + ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Registra en bitácora el acceso a la página de reportes
+    /// </summary>
+    private void RegistrarAuditoriaAcceso()
+    {
+        try
+        {
+            Usuario usuarioLogueado = (Usuario)Session["Usuario"];
+            
+            if (usuarioLogueado != null)
+            {
+                BitacoraBL.RegistrarBitacora(TipoEvento.Message, usuarioLogueado, 
+                    "Acceso a página de Reporte de Ganancias");
+            }
+        }
+        catch (Exception ex)
+        {
+            // No afectar la funcionalidad si falla la auditoría
+            System.Diagnostics.Debug.WriteLine("Error al registrar auditoría de acceso: " + ex.Message);
         }
     }
 }
