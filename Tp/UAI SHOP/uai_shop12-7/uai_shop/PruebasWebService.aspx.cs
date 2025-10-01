@@ -38,50 +38,27 @@ public partial class PruebasWebService : System.Web.UI.Page
         }
     }
 
-    protected void btnGananciasGeneral_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            webService = new ReportingWebService();
-            BE.ReporteGananciasV2[] reportes = webService.ObtenerReporteGananciasV2("", "", 0, 0, 0, 0, 0);
-            
-            string resultado = "📊 REPORTE DINÁMICO V2 - RESULTADOS:\n\n";
-            resultado += "Total de categorías: " + reportes.Length + "\n\n";
-            
-            foreach (var reporte in reportes)
-            {
-                resultado += "Categoría: " + reporte.Categoria + "\n";
-                resultado += "  - Ventas: " + reporte.CantidadVentas + "\n";
-                resultado += "  - Unidades: " + reporte.UnidadesVendidas + "\n";
-                resultado += "  - Venta Total: $" + reporte.VentaTotal.ToString("N2") + "\n";
-                resultado += "  - Ganancia Total: $" + reporte.GananciaTotal.ToString("N2") + "\n\n";
-            }
-            
-            MostrarResultado("✅ GANANCIAS GENERAL OBTENIDAS", resultado, "success");
-        }
-        catch (Exception ex)
-        {
-            MostrarResultado("❌ ERROR AL OBTENER GANANCIAS GENERAL", ex.Message, "error");
-        }
-    }
 
-    protected void btnGananciasUltimoMes_Click(object sender, EventArgs e)
+
+    protected void btnReporteV2PorPeriodo_Click(object sender, EventArgs e)
     {
         try
         {
             webService = new ReportingWebService();
-            BE.ReporteGanancias[] reportes = webService.ObtenerGananciasUltimoMes();
+            BE.ReporteGananciasV2[] reportes = webService.ObtenerReporteV2PorPeriodo("ultimo_mes");
             
             string resultado = "📅 GANANCIAS ÚLTIMO MES - RESULTADOS:\n\n";
             resultado += "Total de categorías: " + reportes.Length + "\n\n";
             
             foreach (var reporte in reportes)
             {
+                decimal porcentajeGanancia = reporte.VentaTotal > 0 ? (reporte.GananciaTotal / reporte.VentaTotal) * 100 : 0;
                 resultado += "Categoría: " + reporte.Categoria + "\n";
-                resultado += "  - Ventas (30 días): " + reporte.VentasConEstaCategoria + "\n";
-                resultado += "  - Unidades: " + reporte.UnidadesTotales + "\n";
-                resultado += "  - Precio Promedio: $" + reporte.PrecioPromedio.ToString("N2") + "\n";
-                resultado += "  - Ganancia Total: $" + reporte.GananciaTotal.ToString("N2") + "\n\n";
+                resultado += "  - Ventas: " + reporte.CantidadVentas + "\n";
+                resultado += "  - Unidades: " + reporte.UnidadesVendidas + "\n";
+                resultado += "  - Venta Total: $" + reporte.VentaTotal.ToString("N2") + "\n";
+                resultado += "  - Ganancia Total: $" + reporte.GananciaTotal.ToString("N2") + "\n";
+                resultado += "  - % Ganancia: " + porcentajeGanancia.ToString("N2") + "%\n\n";
             }
             
             MostrarResultado("✅ GANANCIAS ÚLTIMO MES OBTENIDAS", resultado, "success");
@@ -92,23 +69,25 @@ public partial class PruebasWebService : System.Web.UI.Page
         }
     }
 
-    protected void btnGananciasSemanal_Click(object sender, EventArgs e)
+    protected void btnReporteV2Semanal_Click(object sender, EventArgs e)
     {
         try
         {
             webService = new ReportingWebService();
-            BE.ReporteGanancias[] reportes = webService.ObtenerGananciasSemanal();
+            BE.ReporteGananciasV2[] reportes = webService.ObtenerReporteV2PorPeriodo("ultima_semana");
             
             string resultado = "⚡ GANANCIAS SEMANAL - RESULTADOS:\n\n";
             resultado += "Total de categorías: " + reportes.Length + "\n\n";
             
             foreach (var reporte in reportes)
             {
+                decimal porcentajeGanancia = reporte.VentaTotal > 0 ? (reporte.GananciaTotal / reporte.VentaTotal) * 100 : 0;
                 resultado += "Categoría: " + reporte.Categoria + "\n";
-                resultado += "  - Ventas (7 días): " + reporte.VentasConEstaCategoria + "\n";
-                resultado += "  - Unidades: " + reporte.UnidadesTotales + "\n";
-                resultado += "  - Precio Promedio: $" + reporte.PrecioPromedio.ToString("N2") + "\n";
-                resultado += "  - Ganancia Total: $" + reporte.GananciaTotal.ToString("N2") + "\n\n";
+                resultado += "  - Ventas: " + reporte.CantidadVentas + "\n";
+                resultado += "  - Unidades: " + reporte.UnidadesVendidas + "\n";
+                resultado += "  - Venta Total: $" + reporte.VentaTotal.ToString("N2") + "\n";
+                resultado += "  - Ganancia Total: $" + reporte.GananciaTotal.ToString("N2") + "\n";
+                resultado += "  - % Ganancia: " + porcentajeGanancia.ToString("N2") + "%\n\n";
             }
             
             MostrarResultado("✅ GANANCIAS SEMANAL OBTENIDAS", resultado, "success");
@@ -116,23 +95,6 @@ public partial class PruebasWebService : System.Web.UI.Page
         catch (Exception ex)
         {
             MostrarResultado("❌ ERROR AL OBTENER GANANCIAS SEMANAL", ex.Message, "error");
-        }
-    }
-
-    protected void btnEstadisticasGeneral_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            webService = new ReportingWebService();
-            string estadisticas = webService.ObtenerEstadisticasGanancias("general");
-            
-            string resultado = "📈 ESTADÍSTICAS GENERAL:\n\n" + estadisticas;
-            
-            MostrarResultado("✅ ESTADÍSTICAS OBTENIDAS", resultado, "success");
-        }
-        catch (Exception ex)
-        {
-            MostrarResultado("❌ ERROR AL OBTENER ESTADÍSTICAS", ex.Message, "error");
         }
     }
 

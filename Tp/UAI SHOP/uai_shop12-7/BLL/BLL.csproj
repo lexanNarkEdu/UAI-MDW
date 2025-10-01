@@ -47,7 +47,7 @@
     <Compile Include="ProductoBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReporteGananciasV2BLL.cs" />
-    <Compile Include="ReportesBll.cs" />
+
     <Compile Include="UsuarioBll.cs" />
     <Compile Include="VentaBll.cs" />
   </ItemGroup>

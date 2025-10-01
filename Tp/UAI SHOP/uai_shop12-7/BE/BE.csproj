@@ -53,7 +53,7 @@
     <Compile Include="PermisoSimple.cs" />
     <Compile Include="Producto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReporteGanancias.cs" />
+
     <Compile Include="ReporteGananciasV2.cs" />
     <Compile Include="FiltrosReporteV2.cs" />
     <Compile Include="Usuario.cs" />

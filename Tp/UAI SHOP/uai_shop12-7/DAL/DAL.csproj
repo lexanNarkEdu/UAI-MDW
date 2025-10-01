@@ -48,7 +48,6 @@
     <Compile Include="ProductoDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReporteGananciasV2DAL.cs" />
-    <Compile Include="ReportesDAL.cs" />
     <Compile Include="UsuarioDAL.cs" />
     <Compile Include="VentaDAL.cs" />
   </ItemGroup>

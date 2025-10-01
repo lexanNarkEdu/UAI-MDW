@@ -159,9 +159,9 @@
             <p><strong>URL WSDL:</strong> <asp:Label ID="lblWSDL" runat="server" CssClass="info"></asp:Label></p>
             <p><strong>Métodos disponibles:</strong></p>
             <ul>
-                <li>ObtenerGananciasGeneral()</li>
-                <li>ObtenerGananciasUltimoMes()</li>
-                <li>ObtenerGananciasSemanal()</li>
+                <li>ObtenerReporteGananciasV2() - Filtros dinámicos completos</li>
+                <li>ObtenerReporteV2PorPeriodo() - Acceso rápido por períodos</li>
+                <li>ObtenerReporteV2PorCategoria() - Filtrado por categoría</li>
                 <li>ObtenerEstadisticasGanancias(string tipoReporte)</li>
                 <li>ObtenerCategoriaLider(string tipoReporte)</li>
                 <li>Ping()</li>
@@ -173,20 +173,17 @@
                 <div class="test-section">
                     <h4 style="color: #00ffc8;">🧪 Métodos de Prueba</h4>
                     
-                    <asp:Button ID="btnPing" runat="server" Text="🏓 Ping" 
+                    <asp:Button ID="btnPing" runat="server" Text="🏓 Ping WebService" 
                         CssClass="btn-test" OnClick="btnPing_Click" />
                     
-                    <asp:Button ID="btnGananciasGeneral" runat="server" Text="📊 Ganancias General" 
-                        CssClass="btn-test" OnClick="btnGananciasGeneral_Click" />
+                    <asp:Button ID="btnReporteV2PorPeriodo" runat="server" Text="� Reporte V2 - Último Mes" 
+                        CssClass="btn-test" OnClick="btnReporteV2PorPeriodo_Click" />
                     
-                    <asp:Button ID="btnGananciasUltimoMes" runat="server" Text="📅 Ganancias Último Mes" 
-                        CssClass="btn-test" OnClick="btnGananciasUltimoMes_Click" />
+                    <asp:Button ID="btnReporteV2Semanal" runat="server" Text="⚡ Reporte V2 - Semanal" 
+                        CssClass="btn-test" OnClick="btnReporteV2Semanal_Click" />
                     
-                    <asp:Button ID="btnGananciasSemanal" runat="server" Text="⚡ Ganancias Semanal" 
-                        CssClass="btn-test" OnClick="btnGananciasSemanal_Click" />
-                    
-                    <asp:Button ID="btnEstadisticasGeneral" runat="server" Text="📈 Estadísticas General" 
-                        CssClass="btn-test" OnClick="btnEstadisticasGeneral_Click" />
+                    <asp:Button ID="btnEstadisticasV2" runat="server" Text="📈 Estadísticas V2" 
+                        CssClass="btn-test" OnClick="btnEstadisticasV2_Click" />
                     
                     <asp:Button ID="btnCategoriaLider" runat="server" Text="🏆 Categoría Líder" 
                         CssClass="btn-test" OnClick="btnCategoriaLider_Click" />
@@ -207,9 +204,6 @@
                     
                     <asp:Button ID="btnReporteV2Filtros" runat="server" Text="🎯 V2 - Con Filtros" 
                         CssClass="btn-test" OnClick="btnReporteV2Filtros_Click" />
-                    
-                    <asp:Button ID="btnEstadisticasV2" runat="server" Text="📊 Estadísticas V2" 
-                        CssClass="btn-test" OnClick="btnEstadisticasV2_Click" />
                     
                     <asp:Button ID="btnResumenEjecutivoV2" runat="server" Text="📋 Resumen Ejecutivo V2" 
                         CssClass="btn-test" OnClick="btnResumenEjecutivoV2_Click" />

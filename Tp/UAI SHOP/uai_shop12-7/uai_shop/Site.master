@@ -173,11 +173,7 @@
                                     📊 Reportes
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="reportesDropdown"> 
-                                    <li><a class="dropdown-item" runat="server" href="~/ReporteGanancias">🚀 Reporte Ganancias V2</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" runat="server" href="~/GananciasGeneral">📈 Ganancias General</a></li>
-                                    <li><a class="dropdown-item" runat="server" href="~/GananciasUltimoMes">📅 Ganancias Último Mes</a></li>
-                                    <li><a class="dropdown-item" runat="server" href="~/GananciasSemanal">⚡ Ganancias Semanal</a></li>
+                                    <li><a class="dropdown-item" runat="server" href="~/ReporteGanancias">🚀 Reporte de Ganancias</a></li>
                                 </ul>
                         </li>
                         <!--Menu categorias -->
