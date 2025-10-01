@@ -1,4 +1,4 @@
-<%@ Page Title="Reporte de Ganancias V2" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="ReporteGanancias.aspx.cs" Inherits="ReporteGanancias" %>
+<%@ Page Title="Reporte de Ganancias" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="ReporteGanancias.aspx.cs" Inherits="ReporteGanancias" %>
 
 <asp:Content ID="HeadContent" ContentPlaceHolderID="head" runat="server">
     <style>
@@ -433,7 +433,7 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="reporte-wrapper">
-        <h2>� Reporte de Ganancias V2</h2>
+        <h2>� Reporte de Ganancias</h2>
         
         <asp:UpdatePanel ID="UpdatePanelReporte" runat="server">
             <ContentTemplate>
