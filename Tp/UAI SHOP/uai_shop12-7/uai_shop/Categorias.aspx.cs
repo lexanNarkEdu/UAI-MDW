@@ -36,6 +36,8 @@ public partial class Categorias : System.Web.UI.Page
         menuCarrito.Visible = true;
         HtmlGenericControl menuAbout = (HtmlGenericControl)Master.FindControl("liAbout");
         menuAbout.Visible = true;
+        HtmlGenericControl menuReporte = (HtmlGenericControl)Master.FindControl("liReportes");
+        menuReporte.Visible = false;
 
         if (!permiso.IsNullOrWhiteSpace())
         {
@@ -46,6 +48,7 @@ public partial class Categorias : System.Web.UI.Page
                 menuFacturasYPagos.Visible = false;
                 menuCarrito.Visible = false;
                 menuAbout.Visible = false;
+                menuReporte.Visible = true;
 
             }
             else if (permiso.ToLower().Equals("admin"))
@@ -55,6 +58,7 @@ public partial class Categorias : System.Web.UI.Page
                 menuFacturasYPagos.Visible = true;
                 menuCarrito.Visible = false;
                 menuAbout.Visible = true;
+                menuReporte.Visible = true;
             }
         }
     }

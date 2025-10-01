@@ -8,7 +8,12 @@ namespace BE
 {
     public class Carrito
     {
-        public List<Producto> Productos { get; set; } = new List<Producto>();
+        public List<Producto> Productos { get; set; }
+
+        public Carrito()
+        {
+            Productos = new List<Producto>();
+        }
 
       
 

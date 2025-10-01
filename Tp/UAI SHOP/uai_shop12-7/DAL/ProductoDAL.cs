@@ -115,6 +115,28 @@ namespace DAL
                 throw new Exception("No se puede obtener los registros de los Productos");
             }
         }
+
+        public List<BE.Categoria> ObtenerCategorias()
+        {
+            var lista = new List<BE.Categoria>();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "SELECT IDCategoria, Nombre, Descripcion FROM Categoria ORDER BY Nombre";
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    lista.Add(new BE.Categoria
+                    {
+                        IDCategoria = Convert.ToInt32(reader["IDCategoria"]),
+                        Nombre = reader["Nombre"].ToString(),
+                        Descripcion = reader["Descripcion"] != DBNull.Value ? reader["Descripcion"].ToString() : ""
+                    });
+                }
+            }
+            return lista;
+        }
     }
     
 }

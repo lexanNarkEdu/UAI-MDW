@@ -17,6 +17,7 @@ namespace uai_shop
         {"Bitacora.aspx", "Bitácora"},
         {"DesbloqueoUser.aspx", "Bitácora"}, // Solo webmaster tiene este permiso
         {"BackRestore.aspx", "Bitácora"}, // Solo webmaster tiene este permiso
+        {"ReporteGanancias.aspx", "Reporte ganancias"}, // Admin y Webmaster pueden acceder
         {"Categorias.aspx", "Agregar productos"},
         {"CarritoCompra.aspx", "Agregar al carrito"},
         {"Facturas.aspx", "Ver catálogo"} // Cualquier usuario logueado

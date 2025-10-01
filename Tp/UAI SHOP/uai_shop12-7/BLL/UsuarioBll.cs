@@ -39,7 +39,7 @@ namespace BLL
 
                 if (secureIntegrity)
                 {
-                    mIntegridadBL.ActualizarSpecificDVH(nameof(Usuario), usuarioDesdeDAL.Id_Usuario);
+                    mIntegridadBL.ActualizarSpecificDVH("Usuario", usuarioDesdeDAL.Id_Usuario);
                     mIntegridadBL.ActualizarDVV();
                 }
 
@@ -51,25 +51,25 @@ namespace BLL
                         webmaster.Agregar(new PermisoSimple { Nombre = "Agregar productos" });
                         webmaster.Agregar(new PermisoSimple { Nombre = "Ver catálogo" });
                         webmaster.Agregar(new PermisoSimple { Nombre = "Agregar al carrito" });
+                        webmaster.Agregar(new PermisoSimple { Nombre = "Reporte ganancias" });
                         usuarioDesdeDAL.Permiso = webmaster;
                         break;
 
-                    
+                    case 2: // // Usuario Admin
+                        var admin = new PermisoCompuesto { Nombre = "Admin" };
+                        admin.Agregar(new PermisoSimple { Nombre = "Ver catálogo" });
+                        admin.Agregar(new PermisoSimple { Nombre = "Agregar al carrito" });
+                        admin.Agregar(new PermisoSimple { Nombre = "Agregar productos" });
+                        admin.Agregar(new PermisoSimple { Nombre = "Reporte ganancias" });
+                        usuarioDesdeDAL.Permiso = admin;
+                        break;
 
-                    case 2: // Usuario común/comprador
-                        var comprador = new PermisoCompuesto { Nombre = "Admin" };
+                    case 3: // Usuario común/comprador
+                        var comprador = new PermisoCompuesto { Nombre = "Comprador" };
                         comprador.Agregar(new PermisoSimple { Nombre = "Ver catálogo" });
                         comprador.Agregar(new PermisoSimple { Nombre = "Agregar al carrito" });
                         comprador.Agregar(new PermisoSimple { Nombre = "Agregar productos" });
                         usuarioDesdeDAL.Permiso = comprador;
-                        break;
-
-                    case 3: // Usuario común/comprador
-                        var admin = new PermisoCompuesto { Nombre = "Comprador" };
-                        admin.Agregar(new PermisoSimple { Nombre = "Ver catálogo" });
-                        admin.Agregar(new PermisoSimple { Nombre = "Agregar al carrito" });
-                        admin.Agregar(new PermisoSimple { Nombre = "Agregar productos" });
-                        usuarioDesdeDAL.Permiso = admin;
                         break;
                 }
             }

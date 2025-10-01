@@ -162,7 +162,18 @@
                                 <ul class="dropdown-menu" aria-labelledby="adminDropdown"> 
                                     <li id="liAuditoria" runat="server" class="dropdown-item"><a class="dropdown-item" runat="server" href="~/Bitacora">Bitácora</a></li>
                                     <li id="liDesbloqueoUsuario" runat="server" class="dropdown-item"><a class="dropdown-item" runat="server" href="~/DesbloqueoUser">Desbloquear Usuario</a></li>
-                                    <li id="liRestoreBackup" runat="server" class="dropdown-item"><a class="dropdown-item" runat="server" href="~/BackRestore">Backup y Restore</a></li>                                
+                                    <li id="liRestoreBackup" runat="server" class="dropdown-item"><a class="dropdown-item" runat="server" href="~/BackRestore">Backup y Restore</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li id="liPruebasWS" runat="server" class="dropdown-item"><a class="dropdown-item" runat="server" href="~/PruebasWebService">🔧 Pruebas WebService</a></li>                                
+                                </ul>
+                        </li>
+                        <!--Menu Reportes -->
+                        <li id="liReportes" runat="server" class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="reportesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    📊 Reportes
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="reportesDropdown"> 
+                                    <li><a class="dropdown-item" runat="server" href="~/ReporteGanancias">🚀 Reporte de Ganancias</a></li>
                                 </ul>
                         </li>
                         <!--Menu categorias -->

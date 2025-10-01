@@ -28,5 +28,10 @@ namespace BLL
         {
             return  dal.ObtenerRegistros();
         }
+
+        public List<BE.Categoria> ObtenerCategorias()
+        {
+            return dal.ObtenerCategorias();
+        }
     }
 }
