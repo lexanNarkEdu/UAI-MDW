@@ -204,9 +204,6 @@ namespace BLL
                 return; // Filtros nulos = sin filtros, es válido
 
             ValidarRangoFechas(filtros.FechaDesde, filtros.FechaHasta);
-            
-            if (filtros.PrecioMinimo.HasValue && filtros.PrecioMaximo.HasValue)
-                ValidarRangoPrecios(filtros.PrecioMinimo.Value, filtros.PrecioMaximo.Value);
                 
             if (filtros.CostoMinimo.HasValue && filtros.CostoMaximo.HasValue)
                 ValidarRangoCostos(filtros.CostoMinimo.Value, filtros.CostoMaximo.Value);
@@ -254,16 +251,16 @@ namespace BLL
                 throw new ArgumentException("El costo mínimo no puede ser mayor que el máximo");
         }
 
-        private void ValidarRangoVentas(int ventasMin, int ventasMax)
+        private void ValidarRangoVentas(decimal ventasMin, decimal ventasMax)
         {
             if (ventasMin < 0)
-                throw new ArgumentException("El número mínimo de ventas no puede ser negativo");
+                throw new ArgumentException("El monto mínimo de ventas no puede ser negativo");
                 
             if (ventasMax < 0)
-                throw new ArgumentException("El número máximo de ventas no puede ser negativo");
+                throw new ArgumentException("El monto máximo de ventas no puede ser negativo");
                 
             if (ventasMin > ventasMax)
-                throw new ArgumentException("El número mínimo de ventas no puede ser mayor que el máximo");
+                throw new ArgumentException("El monto mínimo de ventas no puede ser mayor que el máximo");
         }
 
         #endregion

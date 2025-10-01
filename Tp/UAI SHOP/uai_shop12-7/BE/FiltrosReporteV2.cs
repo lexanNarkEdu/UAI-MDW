@@ -21,8 +21,8 @@ namespace BE
         public decimal? CostoMinimo { get; set; }
         public decimal? CostoMaximo { get; set; }
         public decimal? GananciaMinima { get; set; }
-        public int? VentasMinimas { get; set; }
-        public int? VentasMaximas { get; set; }
+        public decimal? VentasMinimas { get; set; }
+        public decimal? VentasMaximas { get; set; }
         public string Categoria { get; set; }
         public bool? SoloConStock { get; set; }
         public string OrdenarPor { get; set; }
@@ -31,7 +31,6 @@ namespace BE
         public bool TieneFiltros()
         {
             return FechaDesde.HasValue || FechaHasta.HasValue || IDCategoria.HasValue ||
-                   PrecioMinimo.HasValue || PrecioMaximo.HasValue ||
                    CostoMinimo.HasValue || CostoMaximo.HasValue ||
                    GananciaMinima.HasValue || VentasMinimas.HasValue || VentasMaximas.HasValue ||
                    !string.IsNullOrEmpty(Categoria);

@@ -47,16 +47,6 @@ namespace DAL
                     parametros.Add(new SqlParameter("@IDCategoria", SqlDbType.Int) { Value = filtros.IDCategoria.Value });
                 }
                 
-                if (filtros.PrecioMinimo.HasValue)
-                {
-                    parametros.Add(new SqlParameter("@PrecioMinimo", SqlDbType.Decimal) { Value = filtros.PrecioMinimo.Value });
-                }
-                
-                if (filtros.PrecioMaximo.HasValue)
-                {
-                    parametros.Add(new SqlParameter("@PrecioMaximo", SqlDbType.Decimal) { Value = filtros.PrecioMaximo.Value });
-                }
-                
                 if (filtros.CostoMinimo.HasValue)
                 {
                     parametros.Add(new SqlParameter("@CostoMinimo", SqlDbType.Decimal) { Value = filtros.CostoMinimo.Value });
@@ -65,6 +55,16 @@ namespace DAL
                 if (filtros.CostoMaximo.HasValue)
                 {
                     parametros.Add(new SqlParameter("@CostoMaximo", SqlDbType.Decimal) { Value = filtros.CostoMaximo.Value });
+                }
+                
+                if (filtros.VentasMinimas.HasValue)
+                {
+                    parametros.Add(new SqlParameter("@VentasMinimas", SqlDbType.Decimal) { Value = filtros.VentasMinimas.Value });
+                }
+                
+                if (filtros.VentasMaximas.HasValue)
+                {
+                    parametros.Add(new SqlParameter("@VentasMaximas", SqlDbType.Decimal) { Value = filtros.VentasMaximas.Value });
                 }
 
                 // Ejecutar SP

@@ -184,10 +184,10 @@ public class ReportingWebService : System.Web.Services.WebService
         string fechaDesde = null,
         string fechaHasta = null,
         int idCategoria = 0,
-        decimal precioMinimo = 0,
-        decimal precioMaximo = 0,
         decimal costoMinimo = 0,
-        decimal costoMaximo = 0)
+        decimal costoMaximo = 0,
+        decimal ventasMinimas = 0,
+        decimal ventasMaximas = 0)
     {
         try
         {
@@ -212,10 +212,10 @@ public class ReportingWebService : System.Web.Services.WebService
 
             // Aplicar filtros solo si tienen valores válidos
             if (idCategoria > 0) filtros.IDCategoria = idCategoria;
-            if (precioMinimo > 0) filtros.PrecioMinimo = precioMinimo;
-            if (precioMaximo > 0) filtros.PrecioMaximo = precioMaximo;
             if (costoMinimo > 0) filtros.CostoMinimo = costoMinimo;
             if (costoMaximo > 0) filtros.CostoMaximo = costoMaximo;
+            if (ventasMinimas > 0) filtros.VentasMinimas = ventasMinimas;
+            if (ventasMaximas > 0) filtros.VentasMaximas = ventasMaximas;
 
             List<BE.ReporteGananciasV2> reportes = reporteV2BLL.ObtenerReporteDinamico(filtros);
             return reportes.ToArray();

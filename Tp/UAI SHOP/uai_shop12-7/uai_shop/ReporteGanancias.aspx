@@ -496,22 +496,11 @@
                             </div>
                             
                             <div class="filtro-group">
-                                <label>📊 Rango de Ventas:</label>
+                                <label>� Monto de Ventas:</label>
                                 <div class="rango-inputs">
-                                    <asp:TextBox ID="txtVentasMin" runat="server" placeholder="Mín. 1" />
+                                    <asp:TextBox ID="txtVentasMin" runat="server" placeholder="Mín. $10000" />
                                     <span>-</span>
-                                    <asp:TextBox ID="txtVentasMax" runat="server" placeholder="Máx. 1000" />
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="filtro-row">
-                            <div class="filtro-group">
-                                <label>💵 Rango de Precios:</label>
-                                <div class="rango-inputs">
-                                    <asp:TextBox ID="txtPrecioMin" runat="server" placeholder="Mín. $100" />
-                                    <span>-</span>
-                                    <asp:TextBox ID="txtPrecioMax" runat="server" placeholder="Máx. $100000" />
+                                    <asp:TextBox ID="txtVentasMax" runat="server" placeholder="Máx. $500000" />
                                 </div>
                             </div>
                         </div>
@@ -601,18 +590,6 @@
                                     <span class="percentage"><%# String.Format("{0:N1}%", BLL.ReporteGananciasV2BLL.CalcularPorcentajeGanancia((BE.ReporteGananciasV2)Container.DataItem)) %></span>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            
-                            <asp:TemplateField HeaderText="Precio Promedio">
-                                <ItemTemplate>
-                                    <span class="currency"><%# String.Format("{0:C}", BLL.ReporteGananciasV2BLL.CalcularPrecioPromedio((BE.ReporteGananciasV2)Container.DataItem)) %></span>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                            
-                            <asp:TemplateField HeaderText="Margen Unitario">
-                                <ItemTemplate>
-                                    <span class="currency"><%# String.Format("{0:C}", BLL.ReporteGananciasV2BLL.CalcularMargenUnitario((BE.ReporteGananciasV2)Container.DataItem)) %></span>
-                                </ItemTemplate>
-                            </asp:TemplateField>
                         </Columns>
                         <EmptyDataTemplate>
                             <div class="no-data">
@@ -689,8 +666,8 @@
         function initializeRangeValidation() {
             var costoMin = document.getElementById('txtCostoMin');
             var costoMax = document.getElementById('txtCostoMax');
-            var precioMin = document.getElementById('txtPrecioMin');
-            var precioMax = document.getElementById('txtPrecioMax');
+            var ventasMin = document.getElementById('txtVentasMin');
+            var ventasMax = document.getElementById('txtVentasMax');
             
             function validateRange(minInput, maxInput) {
                 var minVal = parseFloat(minInput.value.replace(/[^0-9.-]/g, '')) || 0;
@@ -710,9 +687,9 @@
                 costoMax.addEventListener('blur', function() { validateRange(costoMin, costoMax); });
             }
             
-            if (precioMin && precioMax) {
-                precioMin.addEventListener('blur', function() { validateRange(precioMin, precioMax); });
-                precioMax.addEventListener('blur', function() { validateRange(precioMin, precioMax); });
+            if (ventasMin && ventasMax) {
+                ventasMin.addEventListener('blur', function() { validateRange(ventasMin, ventasMax); });
+                ventasMax.addEventListener('blur', function() { validateRange(ventasMin, ventasMax); });
             }
         }
         

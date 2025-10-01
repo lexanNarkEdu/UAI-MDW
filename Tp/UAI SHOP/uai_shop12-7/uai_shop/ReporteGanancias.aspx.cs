@@ -104,7 +104,7 @@ public partial class ReporteGanancias : System.Web.UI.Page
         try
         {
             // Declarar variables para reutilizar en WebService
-            decimal precioMin = 0, precioMax = 0, costoMin = 0, costoMax = 0;
+            decimal costoMin = 0, costoMax = 0;
             
             // Crear filtros basados en los controles de la UI
             FiltrosReporteV2 filtros = new FiltrosReporteV2();
@@ -140,40 +140,30 @@ public partial class ReporteGanancias : System.Web.UI.Page
                 filtros.CostoMaximo = costoMax;
             }
 
-            // Aplicar filtros de ventas
-            int ventasMin;
-            if (!string.IsNullOrEmpty(txtVentasMin.Text) && int.TryParse(txtVentasMin.Text, out ventasMin))
+            // Aplicar filtros de ventas (monto)
+            decimal ventasMin;
+            if (!string.IsNullOrEmpty(txtVentasMin.Text) && decimal.TryParse(txtVentasMin.Text, out ventasMin))
             {
                 filtros.VentasMinimas = ventasMin;
             }
             
-            int ventasMax;
-            if (!string.IsNullOrEmpty(txtVentasMax.Text) && int.TryParse(txtVentasMax.Text, out ventasMax))
+            decimal ventasMax;
+            if (!string.IsNullOrEmpty(txtVentasMax.Text) && decimal.TryParse(txtVentasMax.Text, out ventasMax))
             {
                 filtros.VentasMaximas = ventasMax;
-            }
-
-            // Aplicar filtros de precio
-            if (!string.IsNullOrEmpty(txtPrecioMin.Text) && decimal.TryParse(txtPrecioMin.Text, out precioMin))
-            {
-                filtros.PrecioMinimo = precioMin;
-            }
-            
-            if (!string.IsNullOrEmpty(txtPrecioMax.Text) && decimal.TryParse(txtPrecioMax.Text, out precioMax))
-            {
-                filtros.PrecioMaximo = precioMax;
             }
 
             // Obtener reporte con filtros usando WebService
             string fechaDesdeStr = filtros.FechaDesde != null ? filtros.FechaDesde.Value.ToString("yyyy-MM-dd") : "";
             string fechaHastaStr = filtros.FechaHasta != null ? filtros.FechaHasta.Value.ToString("yyyy-MM-dd") : "";
-            precioMin = filtros.PrecioMinimo ?? 0;
-            precioMax = filtros.PrecioMaximo ?? 0;
             costoMin = filtros.CostoMinimo ?? 0;
             costoMax = filtros.CostoMaximo ?? 0;
             
+            decimal ventasMinParam = filtros.VentasMinimas ?? 0;
+            decimal ventasMaxParam = filtros.VentasMaximas ?? 0;
+            
             BE.ReporteGananciasV2[] reportes = webService.ObtenerReporteGananciasV2(
-                fechaDesdeStr, fechaHastaStr, idCategoria, precioMin, precioMax, costoMin, costoMax);
+                fechaDesdeStr, fechaHastaStr, idCategoria, costoMin, costoMax, ventasMinParam, ventasMaxParam);
             
             string titulo = "Reporte Personalizado";
             if (filtros.TieneFiltros())
