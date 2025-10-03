@@ -21,7 +21,13 @@ public partial class _Default : Page
             if (!IsPostBack)
             {
                 Usuario usuariologeado = (Usuario)Session["Usuario"];
-                
+
+                if (Session["Usuario"] == null || Session["Usuario"].ToString() == "")
+                {
+                    Response.Redirect("Login.aspx");
+                    return;
+                }
+
                 if (usuariologeado != null)
                 {
                     Label1.Text = "PERMISO: " + usuariologeado.Permiso.Nombre;
