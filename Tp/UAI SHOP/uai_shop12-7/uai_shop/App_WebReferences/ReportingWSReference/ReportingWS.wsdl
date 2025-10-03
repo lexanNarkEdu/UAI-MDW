@@ -2,6 +2,16 @@
 <wsdl:definitions xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="http://tempuri.org/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="HelloWorld">
+        <s:complexType />
+      </s:element>
+      <s:element name="HelloWorldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="ObtenerReporteGananciasV2">
         <s:complexType>
           <s:sequence>
@@ -108,6 +118,12 @@
       </s:element>
     </s:schema>
   </wsdl:types>
+  <wsdl:message name="HelloWorldSoapIn">
+    <wsdl:part name="parameters" element="tns:HelloWorld" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldSoapOut">
+    <wsdl:part name="parameters" element="tns:HelloWorldResponse" />
+  </wsdl:message>
   <wsdl:message name="ObtenerReporteGananciasV2SoapIn">
     <wsdl:part name="parameters" element="tns:ObtenerReporteGananciasV2" />
   </wsdl:message>
@@ -144,7 +160,11 @@
   <wsdl:message name="PingSoapOut">
     <wsdl:part name="parameters" element="tns:PingResponse" />
   </wsdl:message>
-  <wsdl:portType name="ReportingWebServiceSoap">
+  <wsdl:portType name="ReportingWSSoap">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldSoapIn" />
+      <wsdl:output message="tns:HelloWorldSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="ObtenerReporteGananciasV2">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Obtiene reporte de ganancias V2 con filtros dinámicos avanzados</wsdl:documentation>
       <wsdl:input message="tns:ObtenerReporteGananciasV2SoapIn" />
@@ -176,8 +196,17 @@
       <wsdl:output message="tns:PingSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="ReportingWebServiceSoap" type="tns:ReportingWebServiceSoap">
+  <wsdl:binding name="ReportingWSSoap" type="tns:ReportingWSSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="ObtenerReporteGananciasV2">
       <soap:operation soapAction="http://tempuri.org/ObtenerReporteGananciasV2" style="document" />
       <wsdl:input>
@@ -233,8 +262,17 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:binding name="ReportingWebServiceSoap12" type="tns:ReportingWebServiceSoap">
+  <wsdl:binding name="ReportingWSSoap12" type="tns:ReportingWSSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap12:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="ObtenerReporteGananciasV2">
       <soap12:operation soapAction="http://tempuri.org/ObtenerReporteGananciasV2" style="document" />
       <wsdl:input>
@@ -290,12 +328,12 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:service name="ReportingWebService">
-    <wsdl:port name="ReportingWebServiceSoap" binding="tns:ReportingWebServiceSoap">
-      <soap:address location="http://localhost:8081/ReportingWebService.asmx" />
+  <wsdl:service name="ReportingWS">
+    <wsdl:port name="ReportingWSSoap" binding="tns:ReportingWSSoap">
+      <soap:address location="http://localhost:55128/ReportingWS.asmx" />
     </wsdl:port>
-    <wsdl:port name="ReportingWebServiceSoap12" binding="tns:ReportingWebServiceSoap12">
-      <soap12:address location="http://localhost:8081/ReportingWebService.asmx" />
+    <wsdl:port name="ReportingWSSoap12" binding="tns:ReportingWSSoap12">
+      <soap12:address location="http://localhost:55128/ReportingWS.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

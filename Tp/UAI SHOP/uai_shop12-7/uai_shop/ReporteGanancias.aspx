@@ -587,7 +587,7 @@
                             
                             <asp:TemplateField HeaderText="% Ganancia">
                                 <ItemTemplate>
-                                    <span class="percentage"><%# String.Format("{0:N1}%", BLL.ReporteGananciasV2BLL.CalcularPorcentajeGanancia((BE.ReporteGananciasV2)Container.DataItem)) %></span>
+                                    <span class="percentage"><%# String.Format("{0:N1}%", Eval("PorcentajeGanancia")) %></span>
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>

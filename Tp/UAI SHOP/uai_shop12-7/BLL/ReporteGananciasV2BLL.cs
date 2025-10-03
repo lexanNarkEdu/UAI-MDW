@@ -284,7 +284,7 @@ namespace BLL
         /// <summary>
         /// Calcula el porcentaje de ganancia de un reporte
         /// </summary>
-        public static decimal CalcularPorcentajeGanancia(ReporteGananciasV2 reporte)
+        public static decimal CalcularPorcentajeGanancia(BE.ReporteGananciasV2 reporte)
         {
             return reporte.CostoTotal > 0 ? (reporte.GananciaTotal / reporte.CostoTotal) * 100 : 0;
         }
@@ -292,7 +292,7 @@ namespace BLL
         /// <summary>
         /// Calcula el precio promedio de un reporte
         /// </summary>
-        public static decimal CalcularPrecioPromedio(ReporteGananciasV2 reporte)
+        public static decimal CalcularPrecioPromedio(BE.ReporteGananciasV2 reporte)
         {
             return reporte.UnidadesVendidas > 0 ? reporte.VentaTotal / reporte.UnidadesVendidas : 0;
         }
@@ -300,7 +300,7 @@ namespace BLL
         /// <summary>
         /// Calcula el costo promedio de un reporte
         /// </summary>
-        public static decimal CalcularCostoPromedio(ReporteGananciasV2 reporte)
+        public static decimal CalcularCostoPromedio(BE.ReporteGananciasV2 reporte)
         {
             return reporte.UnidadesVendidas > 0 ? reporte.CostoTotal / reporte.UnidadesVendidas : 0;
         }
@@ -308,7 +308,7 @@ namespace BLL
         /// <summary>
         /// Calcula el margen unitario de un reporte
         /// </summary>
-        public static decimal CalcularMargenUnitario(ReporteGananciasV2 reporte)
+        public static decimal CalcularMargenUnitario(BE.ReporteGananciasV2 reporte)
         {
             return reporte.UnidadesVendidas > 0 ? reporte.GananciaTotal / reporte.UnidadesVendidas : 0;
         }
