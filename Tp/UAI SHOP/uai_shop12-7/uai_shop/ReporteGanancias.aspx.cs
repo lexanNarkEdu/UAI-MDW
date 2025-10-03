@@ -8,10 +8,13 @@ using BE;
 using BE.Servicios;
 using BLL.Servicios;
 using uai_shop;
+using Microsoft.Ajax.Utilities;
+using ReportingWSReference;
 
 public partial class ReporteGanancias : System.Web.UI.Page
 {
-    private ReportingWebService webService = new ReportingWebService();
+    //private ReportingWebService webService = new ReportingWebService();
+    private ReportingWS webService = new ReportingWS();
     private BLL.ProductoBll productoBll = new BLL.ProductoBll();
 
     protected void Page_Load(object sender, EventArgs e)
@@ -19,17 +22,22 @@ public partial class ReporteGanancias : System.Web.UI.Page
         try
         {
             Usuario usuarioLogueado = (Usuario)Session["Usuario"];
-            
+
             // Verificar autorización usando el sistema existente
             if (!AutorizacionHelper.PuedeAccederAPagina(usuarioLogueado, "ReporteGanancias.aspx"))
             {
                 Response.Redirect("Default.aspx");
                 return;
             }
-            
+
+            if (usuarioLogueado != null)
+            {
+                habilitarMenusSegunRol(usuarioLogueado.Permiso.Nombre);
+            }
+
             // Registrar auditoría de acceso a la página
             RegistrarAuditoriaAcceso();
-            
+
             if (!IsPostBack)
             {
                 // Cargar categorías en el dropdown
@@ -64,7 +72,7 @@ public partial class ReporteGanancias : System.Web.UI.Page
         // Mostrar loading state
         btnBuscarFiltros.Text = "⏳ Buscando...";
         btnBuscarFiltros.Enabled = false;
-        
+
         try
         {
             CargarReporteConFiltros();
@@ -82,8 +90,8 @@ public partial class ReporteGanancias : System.Web.UI.Page
         try
         {
             // Obtener todos los reportes usando WebService
-            BE.ReporteGananciasV2[] reportes = webService.ObtenerReporteGananciasV2("", "", 0, 0, 0, 0, 0);
-            
+            ReportingWSReference.ReporteGananciasV2[] reportes = webService.ObtenerReporteGananciasV2("", "", 0, 0, 0, 0, 0);
+
             MostrarResultados(reportes, "Reporte General de Ganancias");
         }
         catch (Exception ex)
@@ -97,8 +105,8 @@ public partial class ReporteGanancias : System.Web.UI.Page
         try
         {
             // Obtener reporte del último mes usando WebService
-            BE.ReporteGananciasV2[] reportes = webService.ObtenerReporteV2PorPeriodo("ultimo_mes");
-            
+            ReportingWSReference.ReporteGananciasV2[] reportes = webService.ObtenerReporteV2PorPeriodo("ultimo_mes");
+
             MostrarResultados(reportes, "Reporte del Último Mes");
         }
         catch (Exception ex)
@@ -112,8 +120,8 @@ public partial class ReporteGanancias : System.Web.UI.Page
         try
         {
             // Obtener reporte del último año usando WebService
-            BE.ReporteGananciasV2[] reportes = webService.ObtenerReporteV2PorPeriodo("ultimo_anio");
-            
+            ReportingWSReference.ReporteGananciasV2[] reportes = webService.ObtenerReporteV2PorPeriodo("ultimo_anio");
+
             MostrarResultados(reportes, "Reporte del Último Año");
         }
         catch (Exception ex)
@@ -128,17 +136,17 @@ public partial class ReporteGanancias : System.Web.UI.Page
         {
             // Declarar variables para reutilizar en WebService
             decimal costoMin = 0, costoMax = 0;
-            
+
             // Crear filtros basados en los controles de la UI
             FiltrosReporteV2 filtros = new FiltrosReporteV2();
-            
+
             // Aplicar filtro de fechas
             DateTime fechaDesde;
             if (!string.IsNullOrEmpty(txtFechaDesde.Text) && DateTime.TryParse(txtFechaDesde.Text, out fechaDesde))
             {
                 filtros.FechaDesde = fechaDesde;
             }
-            
+
             DateTime fechaHasta;
             if (!string.IsNullOrEmpty(txtFechaHasta.Text) && DateTime.TryParse(txtFechaHasta.Text, out fechaHasta))
             {
@@ -157,7 +165,7 @@ public partial class ReporteGanancias : System.Web.UI.Page
             {
                 filtros.CostoMinimo = costoMin;
             }
-            
+
             if (!string.IsNullOrEmpty(txtCostoMax.Text) && decimal.TryParse(txtCostoMax.Text, out costoMax))
             {
                 filtros.CostoMaximo = costoMax;
@@ -169,7 +177,7 @@ public partial class ReporteGanancias : System.Web.UI.Page
             {
                 filtros.VentasMinimas = ventasMin;
             }
-            
+
             decimal ventasMax;
             if (!string.IsNullOrEmpty(txtVentasMax.Text) && decimal.TryParse(txtVentasMax.Text, out ventasMax))
             {
@@ -181,19 +189,19 @@ public partial class ReporteGanancias : System.Web.UI.Page
             string fechaHastaStr = filtros.FechaHasta != null ? filtros.FechaHasta.Value.ToString("yyyy-MM-dd") : "";
             costoMin = filtros.CostoMinimo ?? 0;
             costoMax = filtros.CostoMaximo ?? 0;
-            
+
             decimal ventasMinParam = filtros.VentasMinimas ?? 0;
             decimal ventasMaxParam = filtros.VentasMaximas ?? 0;
-            
-            BE.ReporteGananciasV2[] reportes = webService.ObtenerReporteGananciasV2(
+
+            ReportingWSReference.ReporteGananciasV2[] reportes = webService.ObtenerReporteGananciasV2(
                 fechaDesdeStr, fechaHastaStr, idCategoria, costoMin, costoMax, ventasMinParam, ventasMaxParam);
-            
+
             string titulo = "Reporte Personalizado";
             if (filtros.TieneFiltros())
             {
                 titulo += " (Filtros aplicados)";
             }
-            
+
             MostrarResultados(reportes, titulo);
         }
         catch (Exception ex)
@@ -202,7 +210,7 @@ public partial class ReporteGanancias : System.Web.UI.Page
         }
     }
 
-    private void MostrarResultados(ReporteGananciasV2[] reportes, string tipoReporte)
+    private void MostrarResultados(ReportingWSReference.ReporteGananciasV2[] reportes, string tipoReporte)
     {
         if (reportes != null && reportes.Length > 0)
         {
@@ -211,14 +219,14 @@ public partial class ReporteGanancias : System.Web.UI.Page
             gvReporteGanancias.DataBind();
 
             // Mostrar feedback de resultados
-            lblResultados.Text = string.Format("✅ {0} resultado{1} encontrado{1}", 
+            lblResultados.Text = string.Format("✅ {0} resultado{1} encontrado{1}",
                 reportes.Length, reportes.Length == 1 ? "" : "s");
             lblResultados.ForeColor = System.Drawing.Color.LightGreen;
             lblResultados.Visible = true;
 
             // Generar estadísticas
             GenerarEstadisticas(reportes, tipoReporte);
-            
+
             // Mostrar panel de estadísticas
             panelEstadisticas.Visible = true;
         }
@@ -227,18 +235,18 @@ public partial class ReporteGanancias : System.Web.UI.Page
             // No hay datos
             gvReporteGanancias.DataSource = null;
             gvReporteGanancias.DataBind();
-            
+
             // Mostrar feedback de sin resultados
             lblResultados.Text = "⚠️ No se encontraron resultados";
             lblResultados.ForeColor = System.Drawing.Color.Orange;
             lblResultados.Visible = true;
-            
+
             // No mostrar KPIs cuando no hay datos
             panelEstadisticas.Visible = false;
         }
     }
 
-    private void GenerarEstadisticas(ReporteGananciasV2[] reportes, string tipoReporte)
+    private void GenerarEstadisticas(ReportingWSReference.ReporteGananciasV2[] reportes, string tipoReporte)
     {
         if (reportes == null || reportes.Length == 0)
             return;
@@ -249,10 +257,10 @@ public partial class ReporteGanancias : System.Web.UI.Page
             int totalVentas = reportes.Sum(r => r.CantidadVentas);
             decimal totalVentasMonto = reportes.Sum(r => r.VentaTotal);
             decimal totalGanancias = reportes.Sum(r => r.GananciaTotal);
-            
+
             // Calcular porcentaje de ganancia general
-            decimal porcentajeGeneral = totalVentasMonto > 0 
-                ? (totalGanancias / totalVentasMonto) * 100 
+            decimal porcentajeGeneral = totalVentasMonto > 0
+                ? (totalGanancias / totalVentasMonto) * 100
                 : 0;
 
             // Encontrar la categoría más rentable
@@ -281,12 +289,12 @@ public partial class ReporteGanancias : System.Web.UI.Page
         // Limpiar el grid
         gvReporteGanancias.DataSource = null;
         gvReporteGanancias.DataBind();
-        
+
         // Mostrar mensaje de error en resultados
         lblResultados.Text = "❌ " + mensaje;
         lblResultados.ForeColor = System.Drawing.Color.Red;
         lblResultados.Visible = true;
-        
+
         // No mostrar KPIs cuando hay error
         panelEstadisticas.Visible = false;
     }
@@ -296,13 +304,13 @@ public partial class ReporteGanancias : System.Web.UI.Page
         try
         {
             var categorias = productoBll.ObtenerCategorias();
-            
+
             // Limpiar dropdown
             ddlCategoria.Items.Clear();
-            
+
             // Agregar opción por defecto
             ddlCategoria.Items.Add(new ListItem("Todas las categorías", ""));
-            
+
             // Agregar categorías
             foreach (var categoria in categorias)
             {
@@ -324,10 +332,10 @@ public partial class ReporteGanancias : System.Web.UI.Page
         try
         {
             Usuario usuarioLogueado = (Usuario)Session["Usuario"];
-            
+
             if (usuarioLogueado != null)
             {
-                BitacoraBL.RegistrarBitacora(TipoEvento.Message, usuarioLogueado, 
+                BitacoraBL.RegistrarBitacora(TipoEvento.Message, usuarioLogueado,
                     "Acceso a página de Reporte de Ganancias");
             }
         }
@@ -335,6 +343,48 @@ public partial class ReporteGanancias : System.Web.UI.Page
         {
             // No afectar la funcionalidad si falla la auditoría
             System.Diagnostics.Debug.WriteLine("Error al registrar auditoría de acceso: " + ex.Message);
+        }
+    }
+    private void habilitarMenusSegunRol(String permiso)
+    {
+
+        //por defecto muestro SOLAMENTE los menus como si fuera un comprador
+        //esto para que en caso de cualquier error no contemplado, no habilite todo por defecto
+
+        HtmlGenericControl menuAdmin = (HtmlGenericControl)Master.FindControl("liAdmin");
+        menuAdmin.Visible = false;
+        HtmlGenericControl menuCategorias = (HtmlGenericControl)Master.FindControl("liCategorias");
+        menuCategorias.Visible = true;
+        HtmlGenericControl menuFacturasYPagos = (HtmlGenericControl)Master.FindControl("liFacturas");
+        menuFacturasYPagos.Visible = true;
+        HtmlGenericControl menuCarrito = (HtmlGenericControl)Master.FindControl("liCarrito");
+        menuCarrito.Visible = true;
+        HtmlGenericControl menuAbout = (HtmlGenericControl)Master.FindControl("liAbout");
+        menuAbout.Visible = true;
+        HtmlGenericControl menuReporte = (HtmlGenericControl)Master.FindControl("liReportes");
+        menuReporte.Visible = false;
+
+        if (!permiso.IsNullOrWhiteSpace())
+        {
+            if (permiso.ToLower().Equals("webmaster"))
+            {
+                menuAdmin.Visible = true;
+                menuCategorias.Visible = false;
+                menuFacturasYPagos.Visible = false;
+                menuCarrito.Visible = false;
+                menuAbout.Visible = false;
+                menuReporte.Visible = true;
+
+            }
+            else if (permiso.ToLower().Equals("admin"))
+            {
+                menuAdmin.Visible = false;
+                menuCategorias.Visible = true;
+                menuFacturasYPagos.Visible = true;
+                menuCarrito.Visible = false;
+                menuAbout.Visible = true;
+                menuReporte.Visible = true;
+            }
         }
     }
 }

@@ -80,7 +80,8 @@ namespace DAL
                         UnidadesVendidas = Convert.ToInt32(row["UnidadesVendidas"]),
                         VentaTotal = Convert.ToDecimal(row["VentaTotal"]),
                         CostoTotal = Convert.ToDecimal(row["CostoTotal"]),
-                        GananciaTotal = Convert.ToDecimal(row["GananciaTotal"])
+                        GananciaTotal = Convert.ToDecimal(row["GananciaTotal"]),
+                        PorcentajeGanancia = Convert.ToDecimal(row["PorcentajeGanancia"])
                     };
                     
                     listaReporte.Add(reporte);

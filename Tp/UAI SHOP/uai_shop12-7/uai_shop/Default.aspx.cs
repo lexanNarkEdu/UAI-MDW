@@ -139,6 +139,7 @@ public partial class _Default : Page
                 menuAbout.Visible = true;
                 menuReporte.Visible = true;
             }
+            Response.Write(permiso.ToLower());
         }
     }
 }

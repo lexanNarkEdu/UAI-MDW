@@ -17,6 +17,7 @@ namespace BE
         public decimal VentaTotal { get; set; }
         public decimal CostoTotal { get; set; }
         public decimal GananciaTotal { get; set; }
+        public decimal PorcentajeGanancia { get; set; }
 
         public ReporteGananciasV2()
         {
@@ -26,6 +27,7 @@ namespace BE
             VentaTotal = 0;
             CostoTotal = 0;
             GananciaTotal = 0;
+            PorcentajeGanancia = 0;
         }
 
         public override string ToString()

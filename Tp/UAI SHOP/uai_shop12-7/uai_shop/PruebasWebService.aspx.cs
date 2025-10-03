@@ -2,18 +2,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using BE;
 using BLL;
+using Microsoft.Ajax.Utilities;
+using ReportingWSReference;
 
 public partial class PruebasWebService : System.Web.UI.Page
 {
     private ReportingWebService webService;
+    //private ReportingWS webService;
 
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
+            Usuario usuariologeado = (Usuario)Session["Usuario"];
+            if (usuariologeado != null)
+            {
+                habilitarMenusSegunRol(usuariologeado.Permiso.Nombre);
+            }
             // Inicializar WebService
             webService = new ReportingWebService();
             
@@ -123,7 +132,7 @@ public partial class PruebasWebService : System.Web.UI.Page
         try
         {
             webService = new ReportingWebService();
-            ReporteGananciasV2[] reportes = webService.ObtenerReporteGananciasV2();
+            BE.ReporteGananciasV2[] reportes = webService.ObtenerReporteGananciasV2();
             
             string resultado = "🔥 REPORTE DINÁMICO V2 - TODOS LOS DATOS:\n\n";
             resultado += $"Total de categorías: {reportes.Length}\n\n";
@@ -150,7 +159,7 @@ public partial class PruebasWebService : System.Web.UI.Page
         try
         {
             webService = new ReportingWebService();
-            ReporteGananciasV2[] reportes = webService.ObtenerReporteV2PorPeriodo("ultimo_mes");
+            BE.ReporteGananciasV2[] reportes = webService.ObtenerReporteV2PorPeriodo("ultimo_mes");
             
             string resultado = "📅 REPORTE V2 - ÚLTIMO MES (30 días):\n\n";
             resultado += $"Total de categorías: {reportes.Length}\n\n";
@@ -178,7 +187,7 @@ public partial class PruebasWebService : System.Web.UI.Page
         {
             webService = new ReportingWebService();
             // Probar con categoría Hardware de Computacion (ID = 1)
-            ReporteGananciasV2[] reportes = webService.ObtenerReporteV2PorCategoria(1);
+            BE.ReporteGananciasV2[] reportes = webService.ObtenerReporteV2PorCategoria(1);
             
             string resultado = "📂 REPORTE V2 - HARDWARE DE COMPUTACION:\n\n";
             
@@ -215,7 +224,7 @@ public partial class PruebasWebService : System.Web.UI.Page
         {
             webService = new ReportingWebService();
             // Probar con filtros: precios entre $1000 y $50000
-            ReporteGananciasV2[] reportes = webService.ObtenerReporteGananciasV2(
+            BE.ReporteGananciasV2[] reportes = webService.ObtenerReporteGananciasV2(
                 null, null, 0, 1000, 50000, 0, 0);
             
             string resultado = "🎯 REPORTE V2 - CON FILTROS (Precios $1,000 - $50,000):\n\n";
@@ -279,5 +288,48 @@ public partial class PruebasWebService : System.Web.UI.Page
     {
         lblResultado.Text = $"{titulo}\n{new string('=', titulo.Length)}\n\n{mensaje}";
         lblResultado.CssClass = tipo;
+    }
+
+    private void habilitarMenusSegunRol(String permiso)
+    {
+
+        //por defecto muestro SOLAMENTE los menus como si fuera un comprador
+        //esto para que en caso de cualquier error no contemplado, no habilite todo por defecto
+
+        HtmlGenericControl menuAdmin = (HtmlGenericControl)Master.FindControl("liAdmin");
+        menuAdmin.Visible = false;
+        HtmlGenericControl menuCategorias = (HtmlGenericControl)Master.FindControl("liCategorias");
+        menuCategorias.Visible = true;
+        HtmlGenericControl menuFacturasYPagos = (HtmlGenericControl)Master.FindControl("liFacturas");
+        menuFacturasYPagos.Visible = true;
+        HtmlGenericControl menuCarrito = (HtmlGenericControl)Master.FindControl("liCarrito");
+        menuCarrito.Visible = true;
+        HtmlGenericControl menuAbout = (HtmlGenericControl)Master.FindControl("liAbout");
+        menuAbout.Visible = true;
+        HtmlGenericControl menuReporte = (HtmlGenericControl)Master.FindControl("liReportes");
+        menuReporte.Visible = false;
+
+        if (!permiso.IsNullOrWhiteSpace())
+        {
+            if (permiso.ToLower().Equals("webmaster"))
+            {
+                menuAdmin.Visible = true;
+                menuCategorias.Visible = false;
+                menuFacturasYPagos.Visible = false;
+                menuCarrito.Visible = false;
+                menuAbout.Visible = false;
+                menuReporte.Visible = true;
+
+            }
+            else if (permiso.ToLower().Equals("admin"))
+            {
+                menuAdmin.Visible = false;
+                menuCategorias.Visible = true;
+                menuFacturasYPagos.Visible = true;
+                menuCarrito.Visible = false;
+                menuAbout.Visible = true;
+                menuReporte.Visible = true;
+            }
+        }
     }
 }
