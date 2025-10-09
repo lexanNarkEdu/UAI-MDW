@@ -69,6 +69,7 @@ namespace BLL
                         comprador.Agregar(new PermisoSimple { Nombre = "Ver catálogo" });
                         comprador.Agregar(new PermisoSimple { Nombre = "Agregar al carrito" });
                         comprador.Agregar(new PermisoSimple { Nombre = "Agregar productos" });
+                        comprador.Agregar(new PermisoSimple { Nombre = "Ver cuenta corriente" });
                         usuarioDesdeDAL.Permiso = comprador;
                         break;
                 }
