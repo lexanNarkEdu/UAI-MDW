@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Banco>
+	<Cuenta>
+		<CuentaNum>CU123</CuentaNum>
+		<CuentaNombre>Miguel Hernández</CuentaNombre>
+		<CuentaSaldo>5623,12</CuentaSaldo>
+		<CuentaSucursal>BadaJoz</CuentaSucursal>
+	</Cuenta>
+	<Cuenta>
+		<CuentaNum>CAPG</CuentaNum>
+		<CuentaNombre>Neus</CuentaNombre>
+		<CuentaSaldo>12613.12</CuentaSaldo>
+		<CuentaSucursal>Barcelona</CuentaSucursal>
+	</Cuenta>
+	<Cuenta>
+		<CuentaNum>CH009</CuentaNum>
+		<CuentaNombre>Estefanía Ruiz</CuentaNombre>
+		<CuentaSaldo>623,12</CuentaSaldo>
+		<CuentaSucursal>Burgos</CuentaSucursal>
+	</Cuenta>
+	<Cuenta>
+		<CuentaNum>OX555</CuentaNum>
+		<CuentaNombre>Antonia Pérez</CuentaNombre>
+		<CuentaSaldo>6023,12</CuentaSaldo>
+		<CuentaSucursal>Barcelona</CuentaSucursal>
+	</Cuenta>
+</Banco>
