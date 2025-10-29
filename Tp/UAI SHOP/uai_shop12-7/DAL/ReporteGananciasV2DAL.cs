@@ -81,7 +81,7 @@ namespace DAL
                         VentaTotal = Convert.ToDecimal(row["VentaTotal"]),
                         CostoTotal = Convert.ToDecimal(row["CostoTotal"]),
                         GananciaTotal = Convert.ToDecimal(row["GananciaTotal"]),
-                        PorcentajeGanancia = Convert.ToDecimal(row["PorcentajeGanancia"])
+                        //PorcentajeGanancia = Convert.ToDecimal(row["PorcentajeGanancia"])
 
                     };
                     

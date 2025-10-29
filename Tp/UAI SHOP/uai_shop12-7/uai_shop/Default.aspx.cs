@@ -147,4 +147,8 @@ public partial class _Default : Page
             }
         }
     }
+    protected void BtnCatalogo_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/CatalogoXML.aspx");
+    }
 }

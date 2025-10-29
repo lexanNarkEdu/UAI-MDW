@@ -12,8 +12,8 @@ namespace DAL
    public class DAO
     {        
         SqlConnection mConexion = new SqlConnection(string_conexion);
-        public static readonly string string_conexion = @"Data Source=.\SQLEXPRESS;Initial Catalog=ProyectoWEB;Integrated Security=True"; //Conexion alex
-        //public static readonly string string_conexion = @"Data Source=.;Initial Catalog=ProyectoWEB;Integrated Security=True"; //Conexion pablito
+        //public static readonly string string_conexion = @"Data Source=.\SQLEXPRESS;Initial Catalog=ProyectoWEB;Integrated Security=True"; //Conexion alex
+        public static readonly string string_conexion = @"Data Source=.;Initial Catalog=ProyectoWEB;Integrated Security=True"; //Conexion pablito
         //public static readonly string string_conexion = @"Data Source=.\SQLEXPRESS;Initial Catalog=ProyectoWEB;Integrated Security=True";// Conexion matias
         //public static readonly string string_conexion = @"Data Source=(localdb)\serverSQL;Initial Catalog=master;Integrated Security=True";// Conexion kevo
         //public static readonly string string_conexion = @"Data Source=.\SQLEXPRESS;Initial Catalog=ProyectoWEB2;Integrated Security=True"; //conexion pato

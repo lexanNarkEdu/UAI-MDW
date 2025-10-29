@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CategoriaXmlService.cs" />
     <Compile Include="DAO.cs" />
     <Compile Include="EncriptadorService.cs" />
     <Compile Include="masterDataSet.Designer.cs">

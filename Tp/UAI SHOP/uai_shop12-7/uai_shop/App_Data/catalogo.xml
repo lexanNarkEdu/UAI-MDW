@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Categorias>
+  <Categoria>
+    <IdCategoria>1</IdCategoria>
+    <NombreCategoria>Hardware de Computacion</NombreCategoria>
+    <Descripcion>Componentes y equipos de PC</Descripcion>
+    <CantidadProductos>2</CantidadProductos>
+  </Categoria>
+  <Categoria>
+    <IdCategoria>3</IdCategoria>
+    <NombreCategoria>Mobiliario de Oficina</NombreCategoria>
+    <Descripcion>Sillas, escritorios, estanterias</Descripcion>
+    <CantidadProductos>2</CantidadProductos>
+  </Categoria>
+  <Categoria>
+    <IdCategoria>4</IdCategoria>
+    <NombreCategoria>Papeleria y Utiles</NombreCategoria>
+    <Descripcion>Cuadernos, lapiceras, carpetas, resaltadores</Descripcion>
+    <CantidadProductos>2</CantidadProductos>
+  </Categoria>
+  <Categoria>
+    <IdCategoria>2</IdCategoria>
+    <NombreCategoria>Perifericos</NombreCategoria>
+    <Descripcion>Teclados, mouse, auriculares, webcams</Descripcion>
+    <CantidadProductos>3</CantidadProductos>
+  </Categoria>
+  <Categoria>
+    <IdCategoria>5</IdCategoria>
+    <NombreCategoria>Tecnologia Educativa</NombreCategoria>
+    <Descripcion>Proyectores, pizarras digitales, tablets</Descripcion>
+    <CantidadProductos>2</CantidadProductos>
+  </Categoria>
+</Categorias>

@@ -44,6 +44,7 @@
     <Compile Include="Acceso.cs" />
     <Compile Include="BackupRestoreDal.cs" />
     <Compile Include="BitacoraDAL.cs" />
+    <Compile Include="CategoriaDAL.cs" />
     <Compile Include="IntegridadDAL.cs" />
     <Compile Include="ProductoDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

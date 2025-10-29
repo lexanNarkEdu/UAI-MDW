@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="Tienda Minimalista" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-<style>
+    <style>
   html, body {
     height: 100%;
     margin: 0;
@@ -227,6 +227,26 @@
   font-weight: bold;
   color: #00ffc8;
 }
+
+.btn-catalogo {
+    background-color: #00ffc8;
+    color: #0f0f0f;
+    font-weight: 700;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 255, 200, 0.25);
+    display: inline-block;
+    margin-top: 15px;
+}
+
+.btn-catalogo:hover {
+    background-color: #00d8a8;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 255, 200, 0.4);
+}
 </style>
 
 <div class="main-wrapper">
@@ -255,7 +275,7 @@
     </section>
 
     <section id="productos">
-      <h2>Productos Disponibles</h2>
+      <h2>Productos Disponibles&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </h2>
       <div class="productos-grid">
         <div class="producto-card">
           <img src="/imagenes/escritorio.jpg" alt="Escritorio Moderno" class="producto-img" />
@@ -295,6 +315,9 @@
         </div>
       </div>
     </section>
+      <div style="text-align:center; margin-top: 20px;">
+    <asp:Button ID="BtnCatalogo" runat="server" Text="Buscar Catálogo" CssClass="btn-catalogo" OnClick="BtnCatalogo_Click" />
+</div>
   </div>
 </div>
 </asp:Content>
