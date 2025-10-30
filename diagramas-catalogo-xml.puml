@@ -1,0 +1,376 @@
+@startuml Catalogo_XML_Diagrama_Completo
+
+' ============================================================================
+' DIAGRAMA 1: CARGA INICIAL DE LA PÁGINA (Page_Load)
+' ============================================================================
+
+title Flujo 1: Carga Inicial del Catálogo XML
+
+actor Usuario
+participant "CatalogoXML.aspx\n(UI)" as UI
+participant "CategoriaBLL\n(Business Logic)" as BLL
+participant "CategoriaDAL\n(Data Access)" as DAL
+participant "CategoriaXmlService\n(Services)" as Service
+database "SQL Server\n(Base de Datos)" as DB
+participant "FileSystem\n(App_Data)" as FS
+
+Usuario -> UI: Accede a CatalogoXML.aspx
+activate UI
+
+UI -> UI: Page_Load(!IsPostBack)
+UI -> UI: AsegurarXml()
+
+alt Archivo catalogo_filtrado.xml NO existe
+    UI -> BLL: GenerarXmlCategorias(appDataPath)
+    activate BLL
+
+    BLL -> DAL: ObtenerCategoriasConCantidad()
+    activate DAL
+
+    DAL -> DB: SELECT c.IdCategoria, c.Nombre,\nc.Descripcion,\nCOUNT(p.IdProducto) AS CantidadProductos\nFROM Categoria c\nLEFT JOIN Producto p\nGROUP BY c.IdCategoria
+    activate DB
+    DB --> DAL: DataTable con categorías
+    deactivate DB
+
+    DAL --> BLL: DataTable
+    deactivate DAL
+
+    BLL -> BLL: Mapear DataTable a List<Categoria>
+
+    BLL -> Service: GenerarCategoriasXml(categorias, xmlPath)
+    activate Service
+
+    Service -> Service: Crear XML con LINQ to XML
+    Service -> FS: Guardar catalogo.xml
+    activate FS
+    FS --> Service: OK
+    deactivate FS
+
+    Service --> BLL: Archivo generado
+    deactivate Service
+
+    BLL -> Service: AplicarXslt(xmlPath, xsltPath, xmlFiltradoPath)
+    activate Service
+
+    Service -> FS: Leer catalogo.xml
+    activate FS
+    FS --> Service: Contenido XML
+    deactivate FS
+
+    Service -> FS: Leer catalogo_filter.xslt
+    activate FS
+    FS --> Service: Transformación XSLT
+    deactivate FS
+
+    Service -> Service: XslCompiledTransform.Transform()
+
+    Service -> FS: Guardar catalogo_filtrado.xml
+    activate FS
+    FS --> Service: OK
+    deactivate FS
+
+    Service --> BLL: Archivo filtrado generado
+    deactivate Service
+
+    BLL --> UI: (xmlPath, xmlFiltradoPath)
+    deactivate BLL
+else Archivo catalogo_filtrado.xml existe
+    UI -> UI: No regenerar
+end
+
+UI -> UI: CargarCategoriasDesdeXml()
+
+UI -> FS: Leer catalogo_filtrado.xml
+activate FS
+FS --> UI: Contenido XML filtrado
+deactivate FS
+
+UI -> UI: XmlReader.Read() en bucle
+UI -> UI: Poblar DdlCategorias\n(DropDownList)
+
+UI --> Usuario: Renderizar página con categorías
+deactivate UI
+
+@enduml
+
+' ============================================================================
+' DIAGRAMA 2: BÚSQUEDA DE PRODUCTOS POR CATEGORÍA
+' ============================================================================
+
+@startuml Busqueda_Productos_Por_Categoria
+
+title Flujo 2: Búsqueda de Productos por Categoría (BtnBuscar_Click)
+
+actor Usuario
+participant "CatalogoXML.aspx\n(UI)" as UI
+participant "CategoriaBLL\n(Business Logic)" as BLL
+participant "CategoriaDAL\n(Data Access)" as DAL
+database "SQL Server\n(Base de Datos)" as DB
+
+Usuario -> UI: Selecciona categoría del dropdown
+Usuario -> UI: Click en botón "Buscar"
+activate UI
+
+UI -> UI: BtnBuscar_Click(sender, e)
+
+alt Categoría NO seleccionada
+    UI -> UI: Limpiar GridView
+    UI --> Usuario: Mostrar mensaje:\n"Seleccioná una categoría para buscar"
+else Categoría seleccionada
+    UI -> UI: int idCategoria = int.Parse(DdlCategorias.SelectedValue)
+
+    UI -> BLL: ObtenerCategoriasPorId(idCategoria)
+    activate BLL
+
+    BLL -> DAL: ObtenerPorCategoriaID(idCategoria)
+    activate DAL
+
+    DAL -> DB: SELECT IdProducto, Nombre AS NombreProducto,\nPrecio FROM Producto\nWHERE IdCategoria = @IdCategoria\nORDER BY Nombre
+    activate DB
+    DB --> DAL: DataTable con productos
+    deactivate DB
+
+    DAL --> BLL: DataTable productos
+    deactivate DAL
+
+    BLL --> UI: DataTable productos
+    deactivate BLL
+
+    UI -> UI: GvProductos.DataSource = productos
+    UI -> UI: GvProductos.DataBind()
+
+    alt Productos encontrados (count > 0)
+        UI --> Usuario: Renderizar GridView con productos\n+ Mensaje: "X producto(s) encontrado(s)"
+    else Sin productos
+        UI --> Usuario: GridView vacío\n+ Mensaje: "No hay productos\npara la categoría seleccionada"
+    end
+end
+
+deactivate UI
+
+@enduml
+
+' ============================================================================
+' DIAGRAMA 3: REGENERACIÓN DEL CATÁLOGO
+' ============================================================================
+
+@startuml Regeneracion_Catalogo_XML
+
+title Flujo 3: Regeneración del Catálogo XML (BtnRegenerar_Click)
+
+actor Usuario
+participant "CatalogoXML.aspx\n(UI)" as UI
+participant "CategoriaBLL\n(Business Logic)" as BLL
+participant "CategoriaDAL\n(Data Access)" as DAL
+participant "CategoriaXmlService\n(Services)" as Service
+database "SQL Server\n(Base de Datos)" as DB
+participant "FileSystem\n(App_Data)" as FS
+
+Usuario -> UI: Click en botón "Regenerar XML"
+activate UI
+
+UI -> UI: BtnRegenerar_Click(sender, e)
+
+UI -> BLL: GenerarXmlCategorias(appDataPath)
+activate BLL
+
+note right of BLL
+  Este flujo es idéntico al de
+  AsegurarXml() pero forzado
+end note
+
+BLL -> DAL: ObtenerCategoriasConCantidad()
+activate DAL
+
+DAL -> DB: SELECT c.IdCategoria, c.Nombre,\nc.Descripcion,\nCOUNT(p.IdProducto) AS CantidadProductos\nFROM Categoria c\nLEFT JOIN Producto p\nGROUP BY c.IdCategoria
+activate DB
+DB --> DAL: DataTable con categorías actualizadas
+deactivate DB
+
+DAL --> BLL: DataTable
+deactivate DAL
+
+BLL -> BLL: Mapear DataTable a List<Categoria>
+
+BLL -> Service: GenerarCategoriasXml(categorias, xmlPath)
+activate Service
+
+Service -> Service: Crear XML con LINQ to XML
+Service -> FS: Sobrescribir catalogo.xml
+activate FS
+FS --> Service: OK
+deactivate FS
+
+Service --> BLL: Archivo generado
+deactivate Service
+
+BLL -> Service: AplicarXslt(xmlPath, xsltPath, xmlFiltradoPath)
+activate Service
+
+Service -> FS: Leer catalogo.xml
+activate FS
+FS --> Service: Contenido XML
+deactivate FS
+
+Service -> FS: Leer catalogo_filter.xslt
+activate FS
+FS --> Service: Transformación XSLT
+deactivate FS
+
+Service -> Service: XslCompiledTransform.Transform()
+
+Service -> FS: Sobrescribir catalogo_filtrado.xml
+activate FS
+FS --> Service: OK
+deactivate FS
+
+Service --> BLL: Archivo filtrado regenerado
+deactivate Service
+
+BLL --> UI: (xmlPath, xmlFiltradoPath)
+deactivate BLL
+
+UI -> UI: CargarCategoriasDesdeXml()
+
+UI -> FS: Leer catalogo_filtrado.xml actualizado
+activate FS
+FS --> UI: Contenido XML filtrado nuevo
+deactivate FS
+
+UI -> UI: XmlReader.Read() en bucle
+UI -> UI: Refrescar DdlCategorias
+
+UI --> Usuario: Renderizar dropdown actualizado\n+ Mensaje: "Archivo XML regenerado correctamente"
+deactivate UI
+
+@enduml
+
+' ============================================================================
+' DIAGRAMA 4: ARQUITECTURA DE CAPAS (VISTA GENERAL)
+' ============================================================================
+
+@startuml Arquitectura_Capas_Catalogo
+
+title Arquitectura en Capas - Sistema de Catálogo XML
+
+package "Capa de Presentación" {
+    [CatalogoXML.aspx] as ASPX
+    [CatalogoXML.aspx.cs] as CodeBehind
+    [Default.aspx] as Home
+}
+
+package "Capa de Lógica de Negocio (BLL)" {
+    [CategoriaBLL] as BLL
+}
+
+package "Capa de Acceso a Datos (DAL)" {
+    [CategoriaDAL] as DAL
+}
+
+package "Capa de Servicios" {
+    [CategoriaXmlService] as XMLService
+}
+
+package "Capa de Entidades (BE)" {
+    [Categoria] as BE
+}
+
+database "SQL Server" {
+    [Tabla Categoria]
+    [Tabla Producto]
+}
+
+folder "FileSystem" {
+    [catalogo.xml]
+    [catalogo_filter.xslt]
+    [catalogo_filtrado.xml]
+}
+
+Home --> CodeBehind : Redirige
+ASPX --> CodeBehind : Code-Behind
+CodeBehind --> BLL : Llama métodos
+BLL --> DAL : Accede a datos
+BLL --> XMLService : Genera XML/XSLT
+BLL ..> BE : Usa entidades
+DAL --> [SQL Server] : Consultas SQL
+DAL ..> BE : Mapea a entidades
+XMLService --> [FileSystem] : Lee/Escribe
+CodeBehind --> [FileSystem] : Lee XML filtrado
+
+note right of BLL
+  GenerarXmlCategorias()
+  ObtenerCategoriasPorId()
+end note
+
+note right of DAL
+  ObtenerCategoriasConCantidad()
+  ObtenerPorCategoriaID()
+end note
+
+note right of XMLService
+  GenerarCategoriasXml()
+  AplicarXslt()
+end note
+
+@enduml
+
+@startuml Diagrama_Objetos_Intercambiados
+
+title Objetos y Datos Intercambiados entre Capas
+
+object "**UI Request**" as UIReq {
+    idCategoria = 2
+    accion = "Buscar"
+}
+
+object "**Categoria (BE)**" as CatBE {
+    IDCategoria = 2
+    Nombre = "Perifericos"
+    Descripcion = "Teclados, mouse..."
+    CantidadProductos = 3
+}
+
+object "**DataTable (DAL)**" as DTCat {
+    Columns: IdCategoria, NombreCategoria
+    Columns: Descripcion, CantidadProductos
+    Rows: 5 categorías
+}
+
+object "**List<Categoria> (BLL)**" as ListCat {
+    [0]: Categoria { ID=1, Nombre="Hardware"... }
+    [1]: Categoria { ID=2, Nombre="Perifericos"... }
+    [2]: Categoria { ID=3, Nombre="Mobiliario"... }
+    ...
+}
+
+object "**XML Document**" as XMLDoc {
+    <?xml version="1.0"?>
+    <Categorias>
+      <Categoria>
+        <IdCategoria>1</IdCategoria>
+        <NombreCategoria>Hardware...</NombreCategoria>
+        ...
+      </Categoria>
+    </Categorias>
+}
+
+object "**DataTable Productos (DAL)**" as DTProd {
+    Columns: IdProducto, NombreProducto, Precio
+    Rows: N productos de la categoría
+}
+
+object "**GridView (UI)**" as GV {
+    Columna 1: ID
+    Columna 2: Producto
+    Columna 3: Precio
+    Filas: Productos bindeados
+}
+
+UIReq --> CatBE : UI solicita datos
+DTCat --> ListCat : DAL retorna → BLL mapea
+ListCat --> XMLDoc : BLL genera → Service serializa
+XMLDoc --> GV : Service procesa → UI renderiza
+DTProd --> GV : DAL retorna → UI bindea
+
+@enduml
+
