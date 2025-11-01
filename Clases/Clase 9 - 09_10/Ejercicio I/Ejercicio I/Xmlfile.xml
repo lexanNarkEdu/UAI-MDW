@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Banco>
+  <Cuenta cuentanum="CU123">
+    <CuentaNombre>Miguel Hernández</CuentaNombre>
+    <CuentaSaldo>5623.12</CuentaSaldo>
+    <CuentaSucursal>Badajoz</CuentaSucursal>
+  </Cuenta>
+  <Cuenta cuentanum="CA065">
+    <CuentaNombre>Neus Espinal</CuentaNombre>
+    <CuentaSaldo>12623.12</CuentaSaldo>
+    <CuentaSucursal>Barcelona</CuentaSucursal>
+  </Cuenta>
+  <Cuenta cuentanum="CH009">
+    <CuentaNombre>Esteban Ruiz</CuentaNombre>
+    <CuentaSaldo>623.12</CuentaSaldo>
+    <CuentaSucursal>Burgos</CuentaSucursal>
+  </Cuenta>
+  <Cuenta cuentanum="CX555">
+    <CuentaNombre>Antonia Pérez</CuentaNombre>
+    <CuentaSaldo>8023.12</CuentaSaldo>
+    <CuentaSucursal>Barcelona</CuentaSucursal>
+  </Cuenta>
+</Banco>

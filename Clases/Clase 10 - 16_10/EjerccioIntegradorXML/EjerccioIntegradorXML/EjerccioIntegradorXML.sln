@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35521.163 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "EjerccioIntegradorXML", ".", "{09F1BB97-A4FC-4086-AF54-01A8248EFB26}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_64261"
+		Debug.AspNetCompiler.PhysicalPath = "..\EjerccioIntegradorXML\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_64261\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_64261"
+		Release.AspNetCompiler.PhysicalPath = "..\EjerccioIntegradorXML\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_64261\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "64261"
+		SlnRelativePath = "..\EjerccioIntegradorXML\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{09F1BB97-A4FC-4086-AF54-01A8248EFB26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09F1BB97-A4FC-4086-AF54-01A8248EFB26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
