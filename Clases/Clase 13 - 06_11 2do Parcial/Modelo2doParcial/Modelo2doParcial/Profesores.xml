@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Profesores>
+  <Profesor ID="001">
+    <Apellido>hola</Apellido>
+    <Sueldo>1244</Sueldo>
+    <Condicion>adjunto</Condicion>
+  </Profesor>
+  <Profesor ID="002">
+    <Apellido>nen</Apellido>
+    <Sueldo>244</Sueldo>
+    <Condicion>adjunto</Condicion>
+  </Profesor>
+  <Profesor ID="003">
+    <Apellido>García</Apellido>
+    <Sueldo>5000</Sueldo>
+    <Condicion>titular</Condicion>
+  </Profesor>
+  <Profesor ID="004">
+    <Apellido>Martínez</Apellido>
+    <Sueldo>3500</Sueldo>
+    <Condicion>adjunto</Condicion>
+  </Profesor>
+  <Profesor ID="005">
+    <Apellido>Nuevo</Apellido>
+    <Sueldo>100</Sueldo>
+    <Condicion>titular</Condicion>
+  </Profesor>
+  <Profesor ID="006">
+    <Apellido>adjun</Apellido>
+    <Sueldo>50</Sueldo>
+    <Condicion>adjunto</Condicion>
+  </Profesor>
+  <Profesor ID="007">
+    <Apellido>Titu</Apellido>
+    <Sueldo>50</Sueldo>
+    <Condicion>titular</Condicion>
+  </Profesor>
+</Profesores>
